@@ -20,7 +20,8 @@ class LoginScreen extends StatelessWidget {
             ),
           TextFormField(
             decoration: InputDecoration(
-          label: Text('password')
+          label: Text('password'),
+              border: OutlineInputBorder(),
           )
             ),
           OutlineButton(onPressed: (){})
