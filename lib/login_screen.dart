@@ -15,7 +15,7 @@ class LoginScreen extends StatelessWidget {
           ),
           TextFormField(
             decoration: InputDecoration(
-          label: Text('Email')
+          label: Text('Email'),
           )
             ),
           TextFormField(
