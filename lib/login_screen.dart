@@ -5,12 +5,27 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Center(
-          child: Text('Login'),
-        )
-      ],
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Column(
+        children: [
+          Center(
+            child: Text('Login'),
+
+          ),
+          TextFormField(
+            decoration: InputDecoration(
+          label: Text('Email')
+          )
+            ),
+          TextFormField(
+            decoration: InputDecoration(
+          label: Text('password')
+          )
+            ),
+
+        ],
+      ),
     );
   }
 }
