@@ -1,0 +1,6 @@
+package com.mostafa.ecommerceapplication
+
+import io.flutter.embedding.android.FlutterActivity
+
+class MainActivity: FlutterActivity() {
+}
