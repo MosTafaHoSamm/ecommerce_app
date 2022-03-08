@@ -23,6 +23,7 @@ class LoginScreen extends StatelessWidget {
           label: Text('password')
           )
             ),
+          OutlineButton(onPressed: (){})
 
         ],
       ),
