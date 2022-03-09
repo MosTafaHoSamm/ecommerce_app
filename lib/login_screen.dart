@@ -25,6 +25,7 @@ class LoginScreen extends StatelessWidget {
           )
             ),
           OutlineButton(onPressed: (){}),
+          Center(child:Text('Mostafa)),
 
         ],
       ),
