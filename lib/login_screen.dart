@@ -24,7 +24,7 @@ class LoginScreen extends StatelessWidget {
               border: OutlineInputBorder(),
           )
             ),
-          OutlineButton(onPressed: (){})
+          OutlineButton(onPressed: (){}),
 
         ],
       ),
