@@ -1,0 +1,10 @@
+import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+class MyIcon {
+
+  static IconData home=FontAwesomeIcons.home;
+  static IconData feeds=FontAwesomeIcons.rss;
+  static IconData search=FontAwesomeIcons.search;
+  static IconData shopping=FontAwesomeIcons.shoppingCart;
+  static IconData user=FontAwesomeIcons.user;
+}
