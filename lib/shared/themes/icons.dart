@@ -7,4 +7,6 @@ class MyIcon {
   static IconData search=FontAwesomeIcons.search;
   static IconData shopping=FontAwesomeIcons.shoppingCart;
   static IconData user=FontAwesomeIcons.user;
+  static IconData close=Icons.close_rounded;
+  static IconData trash=Icons.delete_outline_sharp;
 }

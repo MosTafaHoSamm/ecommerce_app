@@ -9,7 +9,7 @@ class DarkCubit extends Cubit<DarkStates>{
   static DarkCubit get(context)=>BlocProvider.of(context);
   bool isDark=false;
 
-  void changeDarkMode({required bool? fromShared}){
+  void changeMode({bool? fromShared}){
     if(fromShared!=null)
       {
         isDark=fromShared;
@@ -17,15 +17,15 @@ class DarkCubit extends Cubit<DarkStates>{
       }
     else{
       isDark=!isDark;
-      CacheHelper.saveBool(key: "isDark", value: isDark).then((value) {
+      CacheHelper.saveBool(key: 'isDark', value: isDark).then((value) {
         emit(ChangeDarkStates());
 
       });
 
     }
 
-
   }
+
 
 
 }

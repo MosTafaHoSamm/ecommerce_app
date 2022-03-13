@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+import '../shared/cubit/dark_cubit.dart';
+import '../shared/cubit/dark_states.dart';
+import '../shared/network/local/cache.dart';
 
 class UserInfoScreen extends StatefulWidget {
   @override
@@ -7,8 +12,7 @@ class UserInfoScreen extends StatefulWidget {
 }
 
 class _UserInfoScreenState extends State<UserInfoScreen> {
-  bool _value = false;
-
+  late ScrollController scrollController;
   List<IconData> icons = [
     Icons.email,
     Icons.phone,
@@ -18,48 +22,205 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
     FontAwesomeIcons.signOutAlt
   ];
 
+  var top = 0.0;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    scrollController = ScrollController();
+    scrollController.addListener(() {
+      setState(() {});
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-              padding: EdgeInsetsDirectional.only(start: 10),
-              child: titleitem(text: "User Information")),
-          Divider(
-            thickness: 2,
-            color: Colors.grey[300],
+    return BlocConsumer<DarkCubit, DarkStates>(
+      listener: (context, state) {},
+      builder: (context, state) {
+        var cubit = DarkCubit.get(context);
+        return Scaffold(
+          body: Stack(
+            children: [
+              CustomScrollView(
+                controller: scrollController,
+                slivers: [
+                  SliverAppBar(
+                    stretch: true,
+
+                    expandedHeight: 200,
+                    elevation: 4,
+                    // to specify app bar fixed or scroll and dis appear
+                    pinned: true,
+                    automaticallyImplyLeading: false,
+
+                    flexibleSpace: LayoutBuilder(
+                      builder:
+                          (BuildContext context, BoxConstraints constraints) {
+                        top = constraints.biggest.height;
+                        print(top.toInt());
+                        return Container(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [
+                                Colors.lightBlue.shade200,
+                                Colors.blue.shade700,
+                              ],
+                              end: FractionalOffset(0, 0),
+                              begin: FractionalOffset(1, 0),
+                              tileMode: TileMode.clamp,
+                              stops: [0, 1],
+                            ),
+                          ),
+                          child: FlexibleSpaceBar(
+                            stretchModes: [StretchMode.zoomBackground],
+                            background: Image(
+                              image: NetworkImage(
+                                  'https://img.freepik.com/free-vector/avatar-profile-icon_188544-4755.jpg?w=740'),
+                              fit: BoxFit.fill,
+                            ),
+                            //parallax means photo go with scroll at the same time
+                            //pin means go as a unit
+                            //none don't move
+                            collapseMode: CollapseMode.parallax,
+                            centerTitle: true,
+                            title: Row(
+                              children: [
+                                AnimatedOpacity(
+                                  //0:200 opened so disappera 1
+                                  //0 appear 0
+                                    opacity: top <= 150 ? 1 : 0,
+                                    duration: Duration(milliseconds: 300),
+                                    child: Row(
+                                      children: [
+                                        SizedBox(
+                                          width: 15,
+                                        ),
+                                        Container(
+                                          height: kToolbarHeight / 1.8,
+                                          width: kToolbarHeight / 1.8,
+                                          decoration: BoxDecoration(
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.white,
+                                                  blurRadius: 2,
+                                                )
+                                              ],
+                                              shape: BoxShape.circle,
+                                              image: DecorationImage(
+                                                  image: NetworkImage(
+                                                      'https://cdn-icons-png.flaticon.com/512/992/992490.png?w=740'),
+                                                  fit: BoxFit.cover)),
+                                        ),
+                                        SizedBox(
+                                          width: 15,
+                                        ),
+                                        Text(
+                                          "Guest",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 22),
+                                        ),
+                                      ],
+                                    )),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  SliverToBoxAdapter(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                            padding: EdgeInsetsDirectional.only(start: 10),
+                            child: titleitem(text: "User Information")),
+                        Divider(
+                          thickness: 2,
+                          color: Colors.grey[300],
+                        ),
+                        listTile(
+                            context, "Email", "There is No Email", icons, 0),
+                        listTile(
+                            context, "Email", "There is No Email", icons, 0),
+                        listTile(
+                            context, "Email", "There is No Email", icons, 0),
+                        listTile(
+                            context, "Email", "There is No Email", icons, 0),
+                        listTile(
+                            context, "Email", "There is No Email", icons, 0),
+                        listTile(
+                            context, "Phone", "There is No phone", icons, 1),
+                        listTile(context, "Shipping Address",
+                            "There is No Shipping Address", icons, 2),
+                        listTile(context, "Joined data",
+                            "There is No Joined data", icons, 3),
+                        Padding(
+                            padding: EdgeInsetsDirectional.only(start: 10),
+                            child: titleitem(text: "User Settings")),
+                        Divider(
+                          thickness: 2,
+                          color: Colors.grey[300],
+                        ),
+                        SwitchListTile(
+                            visualDensity: VisualDensity.comfortable,
+                            secondary: Icon(FontAwesomeIcons.moon),
+                            title: Text("Dark Mode"),
+                            value: cubit.isDark,
+                            onChanged: (value) {
+                              cubit.changeMode( );
+                            }),
+                        listTile(context, 'SignOut', '', icons, 5)
+                      ],
+                    ),
+                  )
+                ],
+              ),
+              fabBuild(
+
+              ),
+            ],
           ),
-          listTile(context, "Email", "There is No Email", icons, 0),
-          listTile(context, "Phone", "There is No phone", icons, 1),
-          listTile(context, "Shipping Address", "There is No Shipping Address",
-              icons, 2),
-          listTile(context, "Joined data", "There is No Joined data", icons, 3),
-          Padding(
-              padding: EdgeInsetsDirectional.only(start: 10),
-              child: titleitem(text: "User Settings")),
-          Divider(
-            thickness: 2,
-            color: Colors.grey[300],
-          ),
+        );
+      },
+    );
+  }
 
-          SwitchListTile(
-            visualDensity: VisualDensity.comfortable,
+  Widget fabBuild() {
+    final double defaultTopMargin = 200.0 - 4;
+    final double scaleStart = 160;
+    final double scaleEnd = scaleStart / 2;
 
-          secondary: Icon(FontAwesomeIcons.moon),
+    double top = defaultTopMargin;
+    double scale = 1;
+    if (scrollController.hasClients) {
+      double offset = scrollController.offset;
+      top = top - offset;
+      if (offset < defaultTopMargin - scaleStart) {
+        scale = 1.0;
+      } else if (offset < defaultTopMargin - scaleEnd) {
+        scale = (defaultTopMargin - offset - scaleEnd) / scaleEnd;
+      } else {
+        scale = 0;
+      }
+    }
 
-              title:Text("Dark Mode") ,
-
-              value: _value,
-              onChanged: (value) {
-                setState(() {
-                  _value = value;
-                });
-              }),
-          listTile(context, 'SignOut','', icons, 5)
-        ],
+    return Positioned(
+      // not defaultTop Because its variable to move fab when slide
+      top: top,
+      right: 16,
+      child: Transform(
+        alignment: Alignment.center,
+        //to shrink fabButton
+        transform: Matrix4.identity()..scale(scale),
+        child: FloatingActionButton(
+            onPressed: () {
+              CacheHelper.removeData(key: 'isDark');
+            }, child: Icon(Icons.photo_camera_outlined)),
       ),
     );
   }
@@ -81,237 +242,12 @@ Widget listTile(BuildContext context, title, subtitle, List icons, index) {
 }
 
 Widget titleitem({required String text}) {
-  return Text(
-    text,
-    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+  return Padding(
+    padding: const EdgeInsets.all(14.0),
+    child: Text(
+      text,
+      style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+    ),
   );
 }
-
-
-
-//
-// bool _value = false;
-// ScrollController _scrollController;
-// var top = 0.0;
-// @override
-// void initState() {
-//   // TODO: implement initState
-//   super.initState();
-//   _scrollController =ScrollController();
-//   _scrollController.addListener(() {setState(() {
-//
-//   });});
-// }
-// @override
-// Widget build(BuildContext context) {
-//   return Scaffold(
-//     body: Stack(
-//       children: [
-//         CustomScrollView(
-//           controller: _scrollController,
-//           slivers: <Widget>[
-//             SliverAppBar(
-//               automaticallyImplyLeading: false,
-//               elevation: 4,
-//               expandedHeight: 200,
-//               pinned: true,
-//               flexibleSpace: LayoutBuilder(
-//                   builder: (BuildContext context, BoxConstraints constraints) {
-//                     top = constraints.biggest.height;
-//                     return Container(
-//                       decoration: BoxDecoration(
-//                         gradient: LinearGradient(
-//                             colors: [
-//                               ColorsConsts.starterColor,
-//                               ColorsConsts.endColor,
-//                             ],
-//                             begin: const FractionalOffset(0.0, 0.0),
-//                             end: const FractionalOffset(1.0, 0.0),
-//                             stops: [0.0, 1.0],
-//                             tileMode: TileMode.clamp),
-//                       ),
-//                       child: FlexibleSpaceBar(
-//                         collapseMode: CollapseMode.parallax,
-//                         centerTitle: true,
-//                         title: Row(
-//                           //  mainAxisAlignment: MainAxisAlignment.spaceAround,
-//                           crossAxisAlignment: CrossAxisAlignment.center,
-//                           children: [
-//                             AnimatedOpacity(
-//                               duration: Duration(milliseconds: 300),
-//                               opacity: top <= 110.0 ? 1.0 : 0,
-//                               child: Row(
-//                                 children: [
-//                                   SizedBox(
-//                                     width: 12,
-//                                   ),
-//                                   Container(
-//                                     height: kToolbarHeight / 1.8,
-//                                     width: kToolbarHeight / 1.8,
-//                                     decoration: BoxDecoration(
-//                                       boxShadow: [
-//                                         BoxShadow(
-//                                           color: Colors.white,
-//                                           blurRadius: 1.0,
-//                                         ),
-//                                       ],
-//                                       shape: BoxShape.circle,
-//                                       image: DecorationImage(
-//                                         fit: BoxFit.fill,
-//                                         image: NetworkImage(
-//                                             'https://cdn1.vectorstock.com/i/thumb-large/62/60/default-avatar-photo-placeholder-profile-image-vector-21666260.jpg'),
-//                                       ),
-//                                     ),
-//                                   ),
-//                                   SizedBox(
-//                                     width: 12,
-//                                   ),
-//                                   Text(
-//                                     // 'top.toString()',
-//                                     'Guest',
-//                                     style: TextStyle(
-//                                         fontSize: 20.0, color: Colors.white),
-//                                   ),
-//                                 ],
-//                               ),
-//                             ),
-//                           ],
-//                         ),
-//                         background: Image(
-//                           image: NetworkImage(
-//                               'https://cdn1.vectorstock.com/i/thumb-large/62/60/default-avatar-photo-placeholder-profile-image-vector-21666260.jpg'),
-//                           fit: BoxFit.fill,
-//                         ),
-//                       ),
-//                     );
-//                   }),
-//             ),
-//             SliverToBoxAdapter(
-//               child: Column(
-//                 mainAxisAlignment: MainAxisAlignment.center,
-//                 crossAxisAlignment: CrossAxisAlignment.start,
-//                 children: [
-//                   Padding(
-//                       padding: const EdgeInsets.only(left: 8.0),
-//                       child: userTitle('User Information')),
-//                   Divider(
-//                     thickness: 1,
-//                     color: Colors.grey,
-//                   ),
-//                   userListTile('Email', 'Email sub', 0, context),
-//                   userListTile('Email', 'Email sub', 0, context),
-//                   userListTile('Email', 'Email sub', 0, context),
-//                   userListTile('Email', 'Email sub', 0, context),
-//                   userListTile('Email', 'Email sub', 0, context),
-//                   userListTile('Phone number', '4555', 0, context),
-//                   userListTile('Shipping address', '', 0, context),
-//                   userListTile('joined date', 'date', 0, context),
-//                   Padding(
-//                     padding: const EdgeInsets.only(left: 8.0),
-//                     child: userTitle('User settings'),
-//                   ),
-//                   Divider(
-//                     thickness: 1,
-//                     color: Colors.grey,
-//                   ),
-//                   ListTileSwitch(
-//                     value: _value,
-//                     leading: Icon(Ionicons.md_moon),
-//                     onChanged: (value) {
-//                       setState(() {
-//                         _value = value;
-//                       });
-//                     },
-//                     visualDensity: VisualDensity.comfortable,
-//                     switchType: SwitchType.cupertino,
-//                     switchActiveColor: Colors.indigo,
-//                     title: Text('Dark theme'),
-//                   ),
-//                   userListTile('Logout', '', 4, context),
-//                 ],
-//               ),
-//             )
-//           ],
-//         ),
-//         _buildFab()
-//       ],
-//     ),
-//   );
-// }
-//
-//
-// Widget _buildFab() {
-//   //starting fab position
-//   final double defaultTopMargin = 200.0 - 4.0;
-//   //pixels from top where scaling should start
-//   final double scaleStart = 160.0;
-//   //pixels from top where scaling should end
-//   final double scaleEnd = scaleStart / 2;
-//
-//   double top = defaultTopMargin;
-//   double scale = 1.0;
-//   if (_scrollController.hasClients) {
-//     double offset = _scrollController.offset;
-//     top -= offset;
-//     if (offset < defaultTopMargin - scaleStart) {
-//       //offset small => don't scale down
-//       scale = 1.0;
-//     } else if (offset < defaultTopMargin - scaleEnd) {
-//       //offset between scaleStart and scaleEnd => scale down
-//       scale = (defaultTopMargin - scaleEnd - offset) / scaleEnd;
-//     } else {
-//       //offset passed scaleEnd => hide fab
-//       scale = 0.0;
-//     }
-//   }
-//
-//   return  Positioned(
-//     top: top,
-//     right: 16.0,
-//     child:  Transform(
-//       transform:  Matrix4.identity()..scale(scale),
-//       alignment: Alignment.center,
-//       child:  FloatingActionButton(
-//         heroTag: "btn1",
-//         onPressed: (){},
-//         child:  Icon(Icons.camera_alt_outlined),
-//       ),
-//     ),
-//   );
-// }
-//
-// List<IconData> _userTileIcons = [
-//   Icons.email,
-//   Icons.phone,
-//   Icons.local_shipping,
-//   Icons.watch_later,
-//   Icons.exit_to_app_rounded
-// ];
-//
-// Widget userListTile(
-//     String title, String subTitle, int index, BuildContext context) {
-//   return Material(
-//     color: Colors.transparent,
-//     child: InkWell(
-//       splashColor: Theme.of(context).splashColor,
-//       child: ListTile(
-//         onTap: () {},
-//         title: Text(title),
-//         subtitle: Text(subTitle),
-//         leading: Icon(_userTileIcons[index]),
-//       ),
-//     ),
-//   );
-// }
-//
-// Widget userTitle(String title) {
-//   return Padding(
-//     padding: const EdgeInsets.all(14.0),
-//     child: Text(
-//       title,
-//       style: TextStyle(fontWeight: FontWeight.bold, fontSize: 23),
-//     ),
-//   );
-// }
-// }
 

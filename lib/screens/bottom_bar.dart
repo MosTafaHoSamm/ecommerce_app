@@ -47,7 +47,7 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
       currentIndex = index;
     });
   }
-  int currentIndex =4;
+  int currentIndex =3;
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +76,7 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
             height: 0.98*kBottomNavigationBarHeight,
             decoration: BoxDecoration(
                 color: Colors.white,
-                border: Border(top: BorderSide(color: Colors.teal,width: .7))),
+                border: Border(top: BorderSide(color: Colors.grey,width: .7))),
             child: BottomNavigationBar(
               currentIndex: currentIndex,
               onTap: (index){

@@ -8,20 +8,23 @@ import 'package:ecommerceapplication/shared/network/local/cache.dart';
 import 'package:ecommerceapplication/shared/provider/darkProvider.dart';
 import 'package:ecommerceapplication/shared/themes/dark_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 void main() async{
-WidgetsFlutterBinding.ensureInitialized();
+
+  WidgetsFlutterBinding.ensureInitialized();
+
   await CacheHelper.init();
- bool? isDark=CacheHelper.getSavedData(key: 'isDark');
- print('is Dark +++++ ${isDark}');
-  runApp( MyApp(isDark: isDark));
+  bool? isDark=CacheHelper.getSavedData(key: 'isDark');
+  print(isDark);
+   runApp( MyApp(isDark: isDark,));
 }
 
 class MyApp extends StatelessWidget {
-  final  isDark;
-  const MyApp({Key? key,required this.isDark}) : super(key: key);
+  final isDark;
+  const MyApp({Key? key, this.isDark,}) : super(key: key);
 
   // This widget is the root of your application.
   @override
@@ -30,7 +33,7 @@ class MyApp extends StatelessWidget {
       create: (context)
     {
 
-      return DarkCubit()..changeDarkMode(fromShared: isDark);
+      return DarkCubit()..changeMode(fromShared: isDark);
     },
       child: BlocConsumer<DarkCubit,DarkStates>(
         listener: (context,state){},
@@ -38,9 +41,11 @@ class MyApp extends StatelessWidget {
           var cubit=DarkCubit.get(context);
           return MaterialApp(
           title: 'أسواق ياسين',
-          theme: DarkTheme.themeData(context: context, isDark: cubit.isDark),
-          home: Training(),
+          theme: DarkTheme.themeData(context: context, isDark:cubit.isDark  ),
+          home: BottomNavigationBarScreen(),
           debugShowCheckedModeBanner: false,
+
+
         );},
        ),
     );

@@ -177,7 +177,7 @@ class _TrainingState extends State<Training> {
                             title: Text("Dark Mode"),
                             value: cubit.isDark,
                             onChanged: (value) {
-                              cubit.changeDarkMode(fromShared: cubit.isDark);
+                              cubit.changeMode( );
                             }),
                         listTile(context, 'SignOut', '', icons, 5)
                       ],

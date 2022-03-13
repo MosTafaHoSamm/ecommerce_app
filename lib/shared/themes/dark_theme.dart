@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class DarkTheme {
   static ThemeData themeData({required BuildContext context,required bool isDark}){
 
     return ThemeData(
+
+
       scaffoldBackgroundColor: isDark?Colors.black:Colors.grey.shade200,
       primarySwatch: Colors.blue,
       primaryColor: isDark?Colors.black:Colors.grey[300],
       accentColor: Colors.blueAccent,
-      backgroundColor: isDark?Colors.black:Colors.grey[300],
+      backgroundColor: isDark?Colors.grey.shade500:Colors.white,
       indicatorColor: isDark?Color(0xff0E1D36):Color(0xffCBDCF8),
       buttonColor:isDark?Color(0xff3B3B3B) : Color(0xffF1F5FB),
       hintColor: isDark? Colors.grey.shade300 : Colors.grey.shade800,
@@ -22,7 +25,8 @@ class DarkTheme {
       brightness: isDark ? Brightness.dark : Brightness.light,
       buttonTheme: Theme.of(context).buttonTheme.copyWith(colorScheme: isDark ? ColorScheme.dark() : ColorScheme.light()),
       appBarTheme: AppBarTheme(
-        elevation: 0.0,
+         elevation: 0.0,
+        systemOverlayStyle: SystemUiOverlayStyle( statusBarIconBrightness:isDark?Brightness.light:Brightness.dark)
       ),
 
 
