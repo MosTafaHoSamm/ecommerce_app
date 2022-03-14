@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../shared/cubit/dark_cubit.dart';
 import '../shared/cubit/dark_states.dart';
+import '../shared/cubit/home_cubit/dark_cubit.dart';
 import '../shared/network/local/cache.dart';
 
 class UserInfoScreen extends StatefulWidget {
@@ -43,7 +44,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
         return Scaffold(
           body: Stack(
             children: [
-              CustomScrollView(
+              CustomScrollView(physics: BouncingScrollPhysics(),
                 controller: scrollController,
                 slivers: [
                   SliverAppBar(
@@ -77,7 +78,8 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                             stretchModes: [StretchMode.zoomBackground],
                             background: Image(
                               image: NetworkImage(
-                                  'https://img.freepik.com/free-vector/avatar-profile-icon_188544-4755.jpg?w=740'),
+                                  'https://img.freepik.com/free-vector/avatar-'
+                                      'profile-icon_188544-4755.jpg?w=740'),
                               fit: BoxFit.fill,
                             ),
                             //parallax means photo go with scroll at the same time
@@ -143,14 +145,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                           thickness: 2,
                           color: Colors.grey[300],
                         ),
-                        listTile(
-                            context, "Email", "There is No Email", icons, 0),
-                        listTile(
-                            context, "Email", "There is No Email", icons, 0),
-                        listTile(
-                            context, "Email", "There is No Email", icons, 0),
-                        listTile(
-                            context, "Email", "There is No Email", icons, 0),
+
                         listTile(
                             context, "Email", "There is No Email", icons, 0),
                         listTile(
@@ -174,7 +169,8 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                             onChanged: (value) {
                               cubit.changeMode( );
                             }),
-                        listTile(context, 'SignOut', '', icons, 5)
+                        listTile(context, 'SignOut', '', icons, 5),
+                        SizedBox(height: 60,)
                       ],
                     ),
                   )
@@ -191,6 +187,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
   }
 
   Widget fabBuild() {
+    var cubit=DarkCubit.get(context);
     final double defaultTopMargin = 200.0 - 4;
     final double scaleStart = 160;
     final double scaleEnd = scaleStart / 2;
@@ -218,6 +215,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
         //to shrink fabButton
         transform: Matrix4.identity()..scale(scale),
         child: FloatingActionButton(
+          backgroundColor: cubit.isDark?Colors.lightBlueAccent:Colors.blue,
             onPressed: () {
               CacheHelper.removeData(key: 'isDark');
             }, child: Icon(Icons.photo_camera_outlined)),

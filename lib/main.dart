@@ -4,6 +4,7 @@ import 'package:ecommerceapplication/screens/trial.dart';
 import 'package:ecommerceapplication/shared/components/constatnts.dart';
 import 'package:ecommerceapplication/shared/cubit/dark_cubit.dart';
 import 'package:ecommerceapplication/shared/cubit/dark_states.dart';
+import 'package:ecommerceapplication/shared/cubit/home_cubit/dark_cubit.dart';
 import 'package:ecommerceapplication/shared/network/local/cache.dart';
 import 'package:ecommerceapplication/shared/provider/darkProvider.dart';
 import 'package:ecommerceapplication/shared/themes/dark_theme.dart';

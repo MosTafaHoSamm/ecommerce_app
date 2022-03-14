@@ -40,6 +40,18 @@ dependencies:
   flutter_bloc: ^8.0.1
   bloc: ^8.0.3
   shared_preferences: ^2.0.13
+  staggered_grid_view_flutter: ^0.0.4
+  badges: ^2.0.2
+  backdrop: ^0.7.1
+  carousel_slider: ^4.0.0
+  flutter_swiper_plus: ^2.0.4
+
+
+
+
+
+
+
 
 
 

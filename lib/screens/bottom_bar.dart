@@ -2,10 +2,12 @@ import 'package:ecommerceapplication/screens/Cart.dart';
 import 'package:ecommerceapplication/screens/feeds.dart';
 import 'package:ecommerceapplication/screens/search.dart';
 import 'package:ecommerceapplication/screens/user_info.dart';
+import 'package:ecommerceapplication/shared/cubit/dark_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 
+import '../shared/cubit/home_cubit/dark_cubit.dart';
 import '../shared/themes/icons.dart';
 import 'home.dart';
 
@@ -47,12 +49,14 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
       currentIndex = index;
     });
   }
-  int currentIndex =3;
+  int currentIndex =0;
 
   @override
   Widget build(BuildContext context) {
+    var cubit=DarkCubit.get(context);
     return Scaffold(
         floatingActionButton:  FloatingActionButton(
+          backgroundColor: cubit.isDark?Colors.lightBlueAccent:Colors.blue,
           hoverElevation: 100,
           elevation: 4,
           splashColor: Colors.grey,

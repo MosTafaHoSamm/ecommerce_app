@@ -9,4 +9,6 @@ class MyIcon {
   static IconData user=FontAwesomeIcons.user;
   static IconData close=Icons.close_rounded;
   static IconData trash=Icons.delete_outline_sharp;
-}
+  static IconData upload=Icons.upload_sharp;
+  static IconData wishList=FontAwesomeIcons.heart;
+ }

@@ -8,6 +8,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 import '../shared/cubit/dark_cubit.dart';
+import '../shared/cubit/home_cubit/dark_cubit.dart';
 import '../shared/provider/darkProvider.dart';
 import '../shared/themes/colors.dart';
 
