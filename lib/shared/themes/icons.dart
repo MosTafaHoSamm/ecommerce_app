@@ -11,4 +11,7 @@ class MyIcon {
   static IconData trash=Icons.delete_outline_sharp;
   static IconData upload=Icons.upload_sharp;
   static IconData wishList=FontAwesomeIcons.heart;
- }
+  static IconData chevron=Icons.chevron_right;
+
+
+}

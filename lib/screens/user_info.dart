@@ -1,7 +1,10 @@
+import 'package:ecommerceapplication/screens/wishlist.dart';
+import 'package:ecommerceapplication/shared/themes/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../shared/components/components.dart';
 import '../shared/cubit/dark_cubit.dart';
 import '../shared/cubit/dark_states.dart';
 import '../shared/cubit/home_cubit/dark_cubit.dart';
@@ -20,7 +23,9 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
     Icons.local_shipping_rounded,
     Icons.watch_later,
     Icons.brightness_4_outlined,
-    FontAwesomeIcons.signOutAlt
+    FontAwesomeIcons.signOutAlt,
+    Icons.chevron_right,
+    Icons.shopping_bag_rounded
   ];
 
   var top = 0.0;
@@ -44,7 +49,8 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
         return Scaffold(
           body: Stack(
             children: [
-              CustomScrollView(physics: BouncingScrollPhysics(),
+              CustomScrollView(
+                physics: BouncingScrollPhysics(),
                 controller: scrollController,
                 slivers: [
                   SliverAppBar(
@@ -79,7 +85,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                             background: Image(
                               image: NetworkImage(
                                   'https://img.freepik.com/free-vector/avatar-'
-                                      'profile-icon_188544-4755.jpg?w=740'),
+                                  'profile-icon_188544-4755.jpg?w=740'),
                               fit: BoxFit.fill,
                             ),
                             //parallax means photo go with scroll at the same time
@@ -90,8 +96,8 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                             title: Row(
                               children: [
                                 AnimatedOpacity(
-                                  //0:200 opened so disappera 1
-                                  //0 appear 0
+                                    //0:200 opened so disappera 1
+                                    //0 appear 0
                                     opacity: top <= 150 ? 1 : 0,
                                     duration: Duration(milliseconds: 300),
                                     child: Row(
@@ -140,12 +146,35 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                       children: [
                         Padding(
                             padding: EdgeInsetsDirectional.only(start: 10),
+                            child: titleitem(text: "User Bag")),
+                        Divider(
+                          thickness: 2,
+                          color: Colors.grey[300],
+                        ),
+                        itemChevreon(
+                          color: Colors.redAccent,
+                            fontAwesome: MyIcon.wishList,
+                            text: "Wishlist",
+                            icons: icons,
+                            index: 6,
+                            onPressed: () {
+                              navigateAndFinish(context,WishListScreen());
+                            }),
+                        itemChevreon(
+                          color: Colors.amber.shade900,
+                            fontAwesome: MyIcon.shopping,
+                            text: "Cart"
+                            ,
+                            icons: icons,
+                            index: 6,
+                            onPressed: () {}),
+                        Padding(
+                            padding: EdgeInsetsDirectional.only(start: 10),
                             child: titleitem(text: "User Information")),
                         Divider(
                           thickness: 2,
                           color: Colors.grey[300],
                         ),
-
                         listTile(
                             context, "Email", "There is No Email", icons, 0),
                         listTile(
@@ -167,18 +196,18 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                             title: Text("Dark Mode"),
                             value: cubit.isDark,
                             onChanged: (value) {
-                              cubit.changeMode( );
+                              cubit.changeMode();
                             }),
                         listTile(context, 'SignOut', '', icons, 5),
-                        SizedBox(height: 60,)
+                        SizedBox(
+                          height: 60,
+                        ),
                       ],
                     ),
                   )
                 ],
               ),
-              fabBuild(
-
-              ),
+              fabBuild(),
             ],
           ),
         );
@@ -187,7 +216,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
   }
 
   Widget fabBuild() {
-    var cubit=DarkCubit.get(context);
+    var cubit = DarkCubit.get(context);
     final double defaultTopMargin = 200.0 - 4;
     final double scaleStart = 160;
     final double scaleEnd = scaleStart / 2;
@@ -215,16 +244,25 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
         //to shrink fabButton
         transform: Matrix4.identity()..scale(scale),
         child: FloatingActionButton(
-          backgroundColor: cubit.isDark?Colors.lightBlueAccent:Colors.blue,
+          heroTag: 'Hero1',
+            backgroundColor:
+                cubit.isDark ? Colors.lightBlueAccent : Colors.blue,
             onPressed: () {
               CacheHelper.removeData(key: 'isDark');
-            }, child: Icon(Icons.photo_camera_outlined)),
+            },
+            child: Icon(Icons.photo_camera_outlined)),
       ),
     );
   }
 }
 
-Widget listTile(BuildContext context, title, subtitle, List icons, index) {
+Widget listTile(
+  BuildContext context,
+  title,
+  subtitle,
+  List icons,
+  index,
+) {
   return Material(
     color: Colors.transparent,
     child: InkWell(
@@ -249,3 +287,12 @@ Widget titleitem({required String text}) {
   );
 }
 
+Widget itemChevreon({fontAwesome, index, icons, text, onPressed,color}) {
+  return ListTile(
+      leading: Icon(
+        fontAwesome,
+        color: color,
+      ),
+      trailing: IconButton(onPressed: onPressed, icon: Icon(icons[index])),
+      title: Text(text));
+}

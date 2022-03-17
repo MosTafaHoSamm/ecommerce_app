@@ -12,7 +12,7 @@ class CartScreen extends StatelessWidget {
     List products=[];
     print(products.length);
     return Scaffold(
-      body: true? FullCart():EmptyCart(),
+      body: products.length>0? FullCart():EmptyCart(),
 
     );
   }

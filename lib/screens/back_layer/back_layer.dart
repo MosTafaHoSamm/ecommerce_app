@@ -85,6 +85,7 @@ class BackLayerScreen extends StatelessWidget {
         Container(
           padding: EdgeInsets.all(50),
           child: SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -122,18 +123,18 @@ class BackLayerScreen extends StatelessWidget {
                 SizedBox(height: 20,),
 
                 content(
-                     text: "WishList",
+                    text: "WishList",
                     context: context,
                     widget: FeedsScreen(),
                     index: 3),
                 SizedBox(height: 20,),
 
                 content(
-                     text: "Upload Product",
+                    text: "Upload Product",
                     context: context,
                     widget: FeedsScreen(),
                     index: 2),
-                SizedBox(height: 20,),
+                SizedBox(height: 100,),
 
 
 
