@@ -1,0 +1,300 @@
+import 'package:ecommerceapplication/screens/wishlist.dart';
+import 'package:ecommerceapplication/shared/components/components.dart';
+import 'package:ecommerceapplication/shared/cubit/home_cubit/dark_cubit.dart';
+import 'package:ecommerceapplication/shared/themes/icons.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+import 'Cart.dart';
+import 'feeds.dart';
+
+class ProductsDetails extends StatelessWidget {
+  const ProductsDetails({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    var cubit = DarkCubit.get(context);
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text("Detail".toUpperCase()),
+        actions: [
+          IconButton(
+              onPressed: () {
+                navigateAndFinish(context, WishListScreen());
+              },
+              icon: Icon(
+                FontAwesomeIcons.solidHeart,
+                color: Colors.red,
+              )),
+          IconButton(
+              onPressed: () {
+                navigateAndFinish(context, CartScreen());
+              },
+              icon: Icon(
+                FontAwesomeIcons.shoppingCart,
+                color: Colors.lightBlue,
+              )),
+        ],
+      ),
+      body: Stack(
+        children: [
+          Container(
+            color: Colors.grey,
+            height: MediaQuery.of(context).size.height * 0.47,
+            width: double.infinity,
+            child: Container(
+                padding: EdgeInsets.all(16),
+                child: Image.network(
+                    "https://m.media-amazon.com/images/I/613CklbKAvL._AC_SY741_.jpg")),
+          ),
+          SingleChildScrollView(
+            child: Column(
+              children: [
+                Padding(padding: EdgeInsets.only(top: 250)),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    IconButton(onPressed: () {}, icon: Icon(Icons.save)),
+                    IconButton(onPressed: () {}, icon: Icon(Icons.share)),
+                  ],
+                ),
+                Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.only(top: 20, left: 20, right: 20),
+                  color: Colors.grey[700],
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Title",
+                        style: TextStyle(
+                          color: Theme.of(context).textSelectionColor,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      Text(
+                        "US \$ 18",
+                        style: TextStyle(
+                          color: cubit.isDark
+                              ? Theme.of(context).disabledColor
+                              : Colors.black,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        child: Divider(thickness: 1),
+                      ),
+                      Text(
+                        "Description",
+                        style: TextStyle(
+                          color: cubit.isDark
+                              ? Theme.of(context).disabledColor
+                              : Colors.black,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        child: Divider(thickness: 1),
+                      ),
+                      _details(context, "Brand", "brand"),
+                      _details(context, "Quantity", "12 Left"),
+                      _details(context, "Category", "Hala Name"),
+                      _details(context, "Popularity", "popular"),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Divider(
+                        height: 1,
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  color: Theme.of(context).backgroundColor,
+                  width: double.infinity,
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        "No Reviews yet ",
+                        style: TextStyle(
+                            color: Theme.of(context).textSelectionColor,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        "Be The First Reviewer ! ",
+                        style: TextStyle(
+                            color: Theme.of(context).textSelectionColor,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(
+                        height: 70,
+                      ),
+                      Divider(
+                        thickness: 1,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 15),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Container(
+                            child: Text(
+                              "Suggested Products :",
+                              style: TextStyle(
+                                  color: Theme.of(context).textSelectionColor,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w700),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 20.0),
+                        child: Container(
+                          margin: EdgeInsets.only(bottom: 30),
+                          height: 250,
+                          child: ListView.separated(
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (context, state) {
+                                return productItem(context);
+                              },
+                              separatorBuilder: (context, state) {
+                                return SizedBox(
+                                  width: 0,
+                                );
+                              },
+                              itemCount: 7),
+                        ),
+                      ),
+
+                    ],
+                  ),
+                ),
+              ],
+            ),
+
+          ),Align(
+            alignment: Alignment.bottomCenter,
+            child: Row(
+              children: [
+                Expanded(
+                  flex:3,
+                  child: Container(
+                    height: 40,
+                    color: Colors.red.shade900,
+                    child: OutlinedButton(
+                      onPressed: () {},
+                      child: Text(
+
+                        "Add to Cart".toUpperCase(),
+                        textAlign:TextAlign.center,
+
+                        style: TextStyle(
+                            color: Colors.white, fontSize: 17),
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  flex:2,
+
+                  child: Container(
+                    height: 40,
+                    color: Colors.white,
+                    child: OutlinedButton(
+                      onPressed: () {},
+                      child: Row(
+                        children: [
+                          Text(
+                            "Buy Now".toUpperCase(),
+                            textAlign:TextAlign.center,
+                            style: TextStyle(
+                                color: Colors.black, fontSize: 14),
+                          ),
+                          SizedBox(width: 5,),
+                          Icon(FontAwesomeIcons.creditCard,color: Colors.green.shade500,size: 17,)
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  flex:1,
+
+                  child: Container(
+                    height: 40,
+                    color: Colors.grey.shade400,
+                    child: OutlinedButton(
+                        style: ButtonStyle(),
+                        onPressed: () {},
+                        child:
+                        Icon(FontAwesomeIcons.solidHeart,color: Colors.red.shade500,size: 20,)
+
+
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+Widget _details(context, title, sub) {
+  var cubit = DarkCubit.get(context);
+  return Padding(
+    padding: const EdgeInsets.only(top: 5, right: 5, bottom: 5),
+    child: Row(
+      children: [
+        Expanded(
+          child: Text(
+            "${title} :",
+            style: TextStyle(
+              color: Theme.of(context).textSelectionColor,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+        Expanded(
+          child: Text(
+            " ${sub}",
+            style: TextStyle(
+              color:
+                  cubit.isDark ? Theme.of(context).disabledColor : Colors.black,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      ],
+    ),
+  );
+}

@@ -1,4 +1,5 @@
 import 'package:ecommerceapplication/screens/bottom_bar.dart';
+import 'package:ecommerceapplication/screens/product_details.dart';
 import 'package:ecommerceapplication/screens/training.dart';
 import 'package:ecommerceapplication/screens/trial.dart';
 import 'package:ecommerceapplication/shared/components/constatnts.dart';
