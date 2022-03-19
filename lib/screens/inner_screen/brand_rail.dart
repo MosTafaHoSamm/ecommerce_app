@@ -5,7 +5,6 @@ import 'brand_rail_widget.dart';
 
 class BrandRailScreen extends StatefulWidget {
   BrandRailScreen({Key? key}) : super(key: key);
-    static const routeName = '/brand_rail';
 
   @override
   State<BrandRailScreen> createState() => _BrandRailScreenState();

@@ -201,8 +201,8 @@ class HomeScreen extends StatelessWidget {
                           height: 210,
                           child: Swiper(
                             onTap: (index) {
-                              Navigator.pushNamed(
-                                  context, BrandRailScreen.routeName);
+                              Navigator.pushAndRemoveUntil(
+                                  context, MaterialPageRoute(builder: (context){return BrandRailScreen();}),(route)=>false);
                               // Navigator.of(context).pushNamed(BrandRailScreen.routeName,arguments: {index});
                             },
                             itemBuilder: (BuildContext context, int index) {

@@ -17,6 +17,7 @@ class ProductsDetails extends StatelessWidget {
     var cubit = DarkCubit.get(context);
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: cubit.isDark?Colors.black:Colors.grey.shade700,
         centerTitle: true,
         title: Text("Detail".toUpperCase()),
         actions: [
@@ -34,7 +35,7 @@ class ProductsDetails extends StatelessWidget {
               },
               icon: Icon(
                 FontAwesomeIcons.shoppingCart,
-                color: Colors.lightBlue,
+                color: Colors.white,
               )),
         ],
       ),
@@ -116,14 +117,17 @@ class ProductsDetails extends StatelessWidget {
                       SizedBox(
                         height: 10,
                       ),
-                      Divider(
-                        height: 1,
-                      ),
+                      // Divider(
+                      //   height: 1,
+                      // ),
                     ],
                   ),
                 ),
                 Container(
-                  color: Theme.of(context).backgroundColor,
+                  decoration: BoxDecoration( 
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                    color: cubit.isDark?Colors.grey.shade900:Colors.white,
+                  ),
                   width: double.infinity,
                   child: Column(
                     children: [
@@ -150,42 +154,50 @@ class ProductsDetails extends StatelessWidget {
                       SizedBox(
                         height: 70,
                       ),
-                      Divider(
-                        thickness: 1,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 15),
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Container(
-                            child: Text(
-                              "Suggested Products :",
-                              style: TextStyle(
-                                  color: Theme.of(context).textSelectionColor,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w700),
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.only(
+
+                              topLeft:Radius.circular(20),
+                              topRight:Radius.circular(20),
+                          ),
+                          color: cubit.isDark?Colors.grey:Colors.grey,
+
+                        ),
+
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 15),
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Container(
+                              margin: EdgeInsets.only(top: 20,bottom: 20),
+
+                              child: Text(
+
+                                "Suggested Products :",
+                                style: TextStyle(
+                                    color: Theme.of(context).textSelectionColor,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w700),
+                              ),
                             ),
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 20.0),
-                        child: Container(
-                          margin: EdgeInsets.only(bottom: 30),
-                          height: 250,
-                          child: ListView.separated(
-                              scrollDirection: Axis.horizontal,
-                              itemBuilder: (context, state) {
-                                return productItem(context);
-                              },
-                              separatorBuilder: (context, state) {
-                                return SizedBox(
-                                  width: 0,
-                                );
-                              },
-                              itemCount: 7),
-                        ),
+                      Container(
+                        color: cubit.isDark?Colors.grey:Colors.grey,
+
+                        height: 250,
+                        child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, state) {
+                              return productItem(context);
+                            },
+                            itemCount: 7),
                       ),
+                      Container(
+                        width:double.infinity,height: 60,color:cubit.isDark?Colors.grey:Colors.grey,)
+
 
                     ],
                   ),

@@ -58,7 +58,7 @@ Widget productItem(context) {
         navigateAndFinish(context, ProductsDetails());
       },
       child: Container(
-        width: 250,
+        width: 200,
         height: 290,
         decoration: BoxDecoration(
             color:cubit.isDark? Colors.grey.shade700:Colors.white,
