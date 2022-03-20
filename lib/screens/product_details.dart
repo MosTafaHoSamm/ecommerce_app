@@ -1,3 +1,4 @@
+import 'package:ecommerceapplication/models/product_model.dart';
 import 'package:ecommerceapplication/screens/wishlist.dart';
 import 'package:ecommerceapplication/shared/components/components.dart';
 import 'package:ecommerceapplication/shared/cubit/home_cubit/dark_cubit.dart';
@@ -10,9 +11,33 @@ import 'Cart.dart';
 import 'feeds.dart';
 
 class ProductsDetails extends StatelessWidget {
-  const ProductsDetails({Key? key}) : super(key: key);
+    ProductsDetails(
+        {Key? key,
+          required this.id,
+          required this.title
+          , required this.description,
+          required this.categoryName,
+          required this.imageUrl,
+          required this.quantity,
+          required this.brand,
+          required this.price,
+          required this.inFavorite,
+        required this.productModel}) : super(key: key);
 
-  @override
+    final String id;
+    final String title;
+    final String description;
+    final String categoryName;
+    final String imageUrl;
+    final int quantity;
+    final String brand;
+    final double price;
+    final bool inFavorite;
+     ProductModel productModel ;
+
+
+
+    @override
   Widget build(BuildContext context) {
     var cubit = DarkCubit.get(context);
     return Scaffold(
@@ -48,7 +73,7 @@ class ProductsDetails extends StatelessWidget {
             child: Container(
                 padding: EdgeInsets.all(16),
                 child: Image.network(
-                    "https://m.media-amazon.com/images/I/613CklbKAvL._AC_SY741_.jpg")),
+                    imageUrl)),
           ),
           SingleChildScrollView(
             child: Column(
@@ -69,7 +94,7 @@ class ProductsDetails extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Title",
+                        title,
                         style: TextStyle(
                           color: Theme.of(context).textSelectionColor,
                           fontSize: 20,
@@ -79,7 +104,7 @@ class ProductsDetails extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                       ),
                       Text(
-                        "US \$ 18",
+                        "US \$ ${price}",
                         style: TextStyle(
                           color: cubit.isDark
                               ? Theme.of(context).disabledColor
@@ -95,7 +120,7 @@ class ProductsDetails extends StatelessWidget {
                         child: Divider(thickness: 1),
                       ),
                       Text(
-                        "Description",
+                        description,
                         style: TextStyle(
                           color: cubit.isDark
                               ? Theme.of(context).disabledColor
@@ -110,10 +135,10 @@ class ProductsDetails extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(vertical: 10),
                         child: Divider(thickness: 1),
                       ),
-                      _details(context, "Brand", "brand"),
-                      _details(context, "Quantity", "12 Left"),
-                      _details(context, "Category", "Hala Name"),
-                      _details(context, "Popularity", "popular"),
+                      _details(context, "Brand", brand),
+                      _details(context, "Quantity", "${quantity} Left"),
+                      _details(context, "Category", categoryName),
+                      _details(context, "Popularity", inFavorite),
                       SizedBox(
                         height: 10,
                       ),
@@ -187,11 +212,11 @@ class ProductsDetails extends StatelessWidget {
                       Container(
                         color: cubit.isDark?Colors.grey:Colors.grey,
 
-                        height: 250,
+                        height: 320,
                         child: ListView.builder(
                             scrollDirection: Axis.horizontal,
-                            itemBuilder: (context, state) {
-                              return productItem(context);
+                            itemBuilder: (context, index) {
+                              return   productItem(context,productModel ,index  );
                             },
                             itemCount: 7),
                       ),
