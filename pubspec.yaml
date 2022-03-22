@@ -45,6 +45,8 @@ dependencies:
   backdrop: ^0.7.1
   carousel_slider: ^4.0.0
   flutter_swiper_plus: ^2.0.4
+  conditional_builder_null_safety: ^0.0.6
+
 
 
 

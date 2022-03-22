@@ -1,13 +1,14 @@
 import 'package:backdrop/backdrop.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:ecommerceapplication/shared/cubit/home_cubit/dark_states.dart';
-import 'package:ecommerceapplication/shared/themes/colors.dart';
+ import 'package:ecommerceapplication/shared/themes/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_swiper_plus/flutter_swiper_plus.dart';
 
-import '../shared/cubit/dark_cubit.dart';
+import '../shared/cubit/home_cubit.dart';
+import '../shared/cubit/dark_cubit/dark_states.dart';
+import '../shared/cubit/home_states.dart';
 import 'back_layer/back_layer.dart';
 import 'cart_widget.dart';
 import 'inner_screen/brand_rail.dart';
@@ -25,6 +26,8 @@ class HomeScreen extends StatelessWidget {
     'assets/images/h&m.jpg',
     'assets/images/nike.jpg',
     'assets/images/samsung.jpg',
+    'assets/images/hh.jpg',
+
   ];
   List<Widget> imageSliders = [
     Container(
@@ -171,7 +174,7 @@ class HomeScreen extends StatelessWidget {
                                   width: 5,
                                 );
                               },
-                              itemCount: 5),
+                              itemCount: CartItem.cartItem.length.toInt()),
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -201,8 +204,8 @@ class HomeScreen extends StatelessWidget {
                           height: 210,
                           child: Swiper(
                             onTap: (index) {
-                              Navigator.pushAndRemoveUntil(
-                                  context, MaterialPageRoute(builder: (context){return BrandRailScreen();}),(route)=>false);
+                              Navigator.pushNamed(
+                                  context, BrandRailScreen.routeName,arguments: index);
                               // Navigator.of(context).pushNamed(BrandRailScreen.routeName,arguments: {index});
                             },
                             itemBuilder: (BuildContext context, int index) {

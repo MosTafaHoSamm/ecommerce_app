@@ -2,12 +2,12 @@ import 'package:ecommerceapplication/screens/Cart.dart';
 import 'package:ecommerceapplication/screens/feeds.dart';
 import 'package:ecommerceapplication/screens/search.dart';
 import 'package:ecommerceapplication/screens/user_info.dart';
-import 'package:ecommerceapplication/shared/cubit/dark_cubit.dart';
+import 'package:ecommerceapplication/shared/cubit/home_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 
-import '../shared/cubit/home_cubit/dark_cubit.dart';
+ import '../shared/cubit/dark_cubit/dark_cubit.dart';
 import '../shared/themes/icons.dart';
 import 'home.dart';
 
