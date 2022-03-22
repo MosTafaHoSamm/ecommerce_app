@@ -26,6 +26,8 @@ class HomeScreen extends StatelessWidget {
     'assets/images/h&m.jpg',
     'assets/images/nike.jpg',
     'assets/images/samsung.jpg',
+    'assets/images/hh.jpg',
+
   ];
   List<Widget> imageSliders = [
     Container(

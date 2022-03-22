@@ -1,7 +1,8 @@
 import 'package:ecommerceapplication/screens/cart_widget.dart';
+import 'package:ecommerceapplication/shared/cubit/home_cubit.dart';
 import 'package:flutter/material.dart';
 
-import 'brand_rail_widget.dart';
+import '../../models/product_model.dart';
 
 class BrandRailScreen extends StatefulWidget {
   BrandRailScreen({Key? key}) : super(key: key);
@@ -22,10 +23,10 @@ class _BrandRailScreenState extends State<BrandRailScreen> {
   @override
   didChangeDependencies() {
     routeArgs=ModalRoute.of(context)!.settings.arguments.toString();
-    _selectedIndex=int.parse(routeArgs!.substring(1,2));
+    _selectedIndex=int.parse(routeArgs!);
     print(_selectedIndex);
      // print("route ${routeArgs.toString()}");
-    // _selectedIndex = int.parse(routeArgs.substring(1,2));
+     //  _selectedIndex = int.parse(routeArgs!.substring(1,2));
     // print(routeArgs.toString());
     if (_selectedIndex == 0) {
       setState(() {
@@ -127,7 +128,7 @@ class _BrandRailScreenState extends State<BrandRailScreen> {
                             brand = 'All';
                           });
                         }
-                        print(brand);
+                        // print(brand);
 
                       });
                     },
@@ -138,11 +139,12 @@ class _BrandRailScreenState extends State<BrandRailScreen> {
                           height: 20,
                         ),
                         CircleAvatar(
-                          radius: 16,
+                          backgroundColor: Colors.orange,
+                          radius: 22,
                           child: CircleAvatar(
-                            radius: 15,
+                            radius: 20,
                             backgroundImage: NetworkImage(
-                                "https://cdn1.vectorstock.com/i/thumb-large/62/60/default-avatar-photo-placeholder-profile-image-vector-21666260.jpg"),
+                                "https://img.freepik.com/free-photo/cute-little-girl-village-vacation-summer-day_100800-16685.jpg?w=1060"),
                           ),
                         ),
                         SizedBox(
@@ -167,6 +169,8 @@ class _BrandRailScreenState extends State<BrandRailScreen> {
                           text: 'Adidas', padding: padding),
                       buildRotatedTextNavigationRailDestination(
                           text: 'Apple', padding: padding),
+                      buildRotatedTextNavigationRailDestination(
+                          text: 'DELL', padding: padding),
                       buildRotatedTextNavigationRailDestination(
                           text: 'H&M', padding: padding),
                       buildRotatedTextNavigationRailDestination(
@@ -301,10 +305,16 @@ class ContentSpace extends StatelessWidget {
   // final int _selectedIndex;
 
   final String brand;
-  ContentSpace(BuildContext context, this.brand);
+  ContentSpace(BuildContext context, this.brand,);
 
   @override
   Widget build(BuildContext context) {
+      var cubit=HomeCubit.get(context);
+
+    print(cubit.getBrand(brand)[0].description);
+        var model=cubit.getBrand(brand);
+
+    print(brand);
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.fromLTRB(5, 8, 5, 5),
@@ -312,12 +322,100 @@ class ContentSpace extends StatelessWidget {
           removeTop: true,
           context: context,
           child: ListView.builder(
-            itemCount: 5,
+            itemCount: cubit.getBrand(brand).length,
             itemBuilder: (BuildContext context, int index) =>
-            RailWidget(),
+            RailWidget(  context,cubit.getBrand(brand)[index] , index),
           ),
         ),
       ),
     );
   }
+}
+
+
+Widget RailWidget(context,ProductModel model,index){
+  return Container(
+    padding: EdgeInsets.only(left: 5, right: 5),
+    margin: EdgeInsets.only(right: 20, bottom: 5, top: 18),
+    constraints: BoxConstraints(
+        minHeight: 150, maxHeight: 180, minWidth: double.infinity),
+    child: Row(
+      children: [
+        Expanded(
+          child: Container(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(20)),
+                image: DecorationImage(
+                  fit: BoxFit.fill,
+                  image: NetworkImage(
+                      "${model.imageUrl}"),
+                ),
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.grey, blurRadius: 3, offset: Offset(2, 2))
+                ]),
+          ),
+        ),
+        FittedBox(
+          child: Container(
+            decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.grey.shade700,
+                      blurRadius: 10,
+                      offset: Offset(5, 5))
+                ],
+                color: Theme.of(context).backgroundColor,
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(10),
+                  bottomRight: Radius.circular(10),
+                )),
+            width: 160,
+            margin: EdgeInsets.only(top: 20, bottom: 20),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "${model.title}",
+                    maxLines: 2,
+                    style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                        color: Theme.of(context).textSelectionColor),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  FittedBox(
+                    child: Text(
+                      "US ${model.price} \$",
+                      style: TextStyle(
+                          color: Colors.redAccent,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 30),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    "${model.categoryName}",
+                    style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                        color: Theme.of(context).textSelectionColor),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        )
+      ],
+    ),
+  );
 }
