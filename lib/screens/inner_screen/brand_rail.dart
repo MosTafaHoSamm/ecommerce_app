@@ -5,6 +5,7 @@ import 'brand_rail_widget.dart';
 
 class BrandRailScreen extends StatefulWidget {
   BrandRailScreen({Key? key}) : super(key: key);
+  static const routeName='/brandRailScreen';
 
   @override
   State<BrandRailScreen> createState() => _BrandRailScreenState();
@@ -14,14 +15,16 @@ class _BrandRailScreenState extends State<BrandRailScreen> {
   final padding = 8.0;
   int _selectedIndex = 0;
 
-   // late String  routeArgs;
+      String ? routeArgs;
 
     String? brand;
 
   @override
   didChangeDependencies() {
-    // // routeArgs = ModalRoute.of(context)!.settings.arguments.toString();
-    // print("route ${routeArgs.toString()}");
+    routeArgs=ModalRoute.of(context)!.settings.arguments.toString();
+    _selectedIndex=int.parse(routeArgs!.substring(1,2));
+    print(_selectedIndex);
+     // print("route ${routeArgs.toString()}");
     // _selectedIndex = int.parse(routeArgs.substring(1,2));
     // print(routeArgs.toString());
     if (_selectedIndex == 0) {

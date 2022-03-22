@@ -1,39 +1,42 @@
-import 'package:ecommerceapplication/shared/cubit/home_cubit/dark_cubit.dart';
+ import 'package:ecommerceapplication/screens/feeds.dart';
 import 'package:flutter/material.dart';
 
 import '../models/cart_item_model/cart_item_model.dart';
+import '../shared/cubit/dark_cubit/dark_cubit.dart';
 import 'inner_screen/brand_rail.dart';
+import 'inner_screen/catrgory_screen.dart';
 
 class CartItem extends StatelessWidget {
   final int index;
-  List<Map<String, dynamic>> cartItem = [
+ static List<Map<String, dynamic>> cartItem = [
     {
-      'name': 'Electronics',
-      'image': 'assets/images/CatLaptops.png',
+      'name': 'موبايلات',
+      'image': 'assets/images/iphone.jpg',
     },
     {
-      'name': 'Electronics',
+      'name': 'الصحة والجمال',
       'image': 'assets/images/CatBeauty.jpg',
     },
     {
-      'name': 'Electronics',
+      'name': 'الملابس',
       'image': 'assets/images/CatClothes.jpg',
     },
     {
-      'name': 'Furniture',
+      'name': 'الأثاث',
       'image': 'assets/images/CatFurniture.jpg',
     },
     {
-      'name': 'Laptops',
+      'name': 'إلكترونيات',
       'image': 'assets/images/CatLaptops.png',
     },
+
     {
-      'name': 'Phones',
-      'image': 'assets/images/CatPhones.png',
+      'name': 'ساعات',
+      'image': 'assets/images/CatWatches.jpg',
     },
     {
-      'name': 'Watches',
-      'image': 'assets/images/CatWatches.jpg',
+      'name': 'طعام',
+      'image': 'assets/images/food.jpg',
     },
   ];
   List<CartModel> model = [
@@ -52,7 +55,13 @@ class CartItem extends StatelessWidget {
     var cubit = DarkCubit.get(context);
     return InkWell(
       onTap: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context){return BrandRailScreen();}));
+        Navigator.pushNamed(context, CategoryScreen.routeName,arguments:cartItem[index]['name'] );
+
+        // print(cartItem[index]['name']);
+
+        // if you need to activate railScreen >>>>>>>>>>>>
+        // Navigator.push(context, MaterialPageRoute(builder: (context){return BrandRailScreen();}));
+
       },
       child: Stack(
         alignment: AlignmentDirectional.bottomCenter,

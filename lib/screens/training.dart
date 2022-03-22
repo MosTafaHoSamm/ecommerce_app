@@ -1,14 +1,15 @@
 import 'dart:ui';
 
-import 'package:ecommerceapplication/shared/cubit/dark_states.dart';
+import 'package:ecommerceapplication/shared/cubit/home_states.dart';
 import 'package:ecommerceapplication/shared/network/local/cache.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
-import '../shared/cubit/dark_cubit.dart';
-import '../shared/cubit/home_cubit/dark_cubit.dart';
+import '../shared/cubit/dark_cubit/dark_states.dart';
+import '../shared/cubit/home_cubit.dart';
+ import '../shared/cubit/dark_cubit/dark_cubit.dart';
 import '../shared/provider/darkProvider.dart';
 import '../shared/themes/colors.dart';
 

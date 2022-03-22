@@ -1,12 +1,13 @@
 import 'package:ecommerceapplication/models/product_model.dart';
 import 'package:ecommerceapplication/screens/wishlist.dart';
 import 'package:ecommerceapplication/shared/components/components.dart';
-import 'package:ecommerceapplication/shared/cubit/home_cubit/dark_cubit.dart';
-import 'package:ecommerceapplication/shared/themes/icons.dart';
+import 'package:ecommerceapplication/shared/cubit/home_cubit.dart';
+ import 'package:ecommerceapplication/shared/themes/icons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../shared/cubit/dark_cubit/dark_cubit.dart';
 import 'Cart.dart';
 import 'feeds.dart';
 
@@ -22,7 +23,7 @@ class ProductsDetails extends StatelessWidget {
           required this.brand,
           required this.price,
           required this.inFavorite,
-        required this.productModel}) : super(key: key);
+        }) : super(key: key);
 
     final String id;
     final String title;
@@ -33,13 +34,13 @@ class ProductsDetails extends StatelessWidget {
     final String brand;
     final double price;
     final bool inFavorite;
-     ProductModel productModel ;
 
 
 
     @override
   Widget build(BuildContext context) {
     var cubit = DarkCubit.get(context);
+    var cubitH = HomeCubit.get(context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: cubit.isDark?Colors.black:Colors.grey.shade700,
@@ -216,9 +217,9 @@ class ProductsDetails extends StatelessWidget {
                         child: ListView.builder(
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (context, index) {
-                              return   productItem(context,productModel ,index  );
+                              return   productItem(context,cubitH.getProducts()[index] ,index  );
                             },
-                            itemCount: 7),
+                            itemCount:  cubitH.getProducts().length),
                       ),
                       Container(
                         width:double.infinity,height: 60,color:cubit.isDark?Colors.grey:Colors.grey,)

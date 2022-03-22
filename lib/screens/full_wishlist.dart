@@ -1,5 +1,5 @@
-import 'package:ecommerceapplication/shared/cubit/dark_cubit.dart';
-import 'package:ecommerceapplication/shared/cubit/dark_states.dart';
+import 'package:ecommerceapplication/shared/cubit/home_cubit.dart';
+import 'package:ecommerceapplication/shared/cubit/home_states.dart';
 import 'package:ecommerceapplication/shared/themes/colors.dart';
 import 'package:ecommerceapplication/shared/themes/icons.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,7 +8,9 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../shared/cubit/home_cubit/dark_cubit.dart';
+import '../shared/cubit/dark_cubit/dark_cubit.dart';
+import '../shared/cubit/dark_cubit/dark_states.dart';
+
 
 class FullWishlist extends StatelessWidget {
   const FullWishlist({Key? key}) : super(key: key);

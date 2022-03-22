@@ -1,76 +1,83 @@
 import 'package:badges/badges.dart';
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:ecommerceapplication/screens/product_details.dart';
 import 'package:ecommerceapplication/shared/components/components.dart';
 import 'package:ecommerceapplication/shared/cubit/home_cubit.dart';
 import 'package:ecommerceapplication/shared/cubit/home_states.dart';
-import 'package:ecommerceapplication/shared/provider/layout_provider.dart';
-import 'package:ecommerceapplication/shared/themes/colors.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
-import 'package:staggered_grid_view_flutter/widgets/staggered_grid_view.dart';
-import 'package:staggered_grid_view_flutter/widgets/staggered_tile.dart';
 
-import '../models/product_model.dart';
-import '../shared/cubit/dark_cubit/dark_cubit.dart';
+import '../../models/product_model.dart';
+import '../../shared/cubit/dark_cubit/dark_cubit.dart';
 
-class FeedsScreen extends StatelessWidget {
-  FeedsScreen({Key? key,}) : super(key: key);
-  static const routeName = '/feeds';
-    @override
+class CategoryScreen extends StatelessWidget {
+  CategoryScreen({
+    Key? key,
+  }) : super(key: key);
+  static const routeName = '/categoryscreen';
+  @override
   Widget build(BuildContext context) {
+    String categoryName = ModalRoute.of(context)?.settings.arguments as String;
+    print(categoryName);
+    // LayoutProvider provider=Provider.of<LayoutProvider>(context);
 
-     // LayoutProvider provider=Provider.of<LayoutProvider>(context);
+    return BlocConsumer<HomeCubit, HomeStates>(
+      listener: (context, state) {},
+      builder: (context, state) {
+        HomeCubit cubit = HomeCubit.get(context);
+        List category = cubit.getCategory(categoryName);
+        print(" Length of Products =${category.length}");
 
-     return BlocConsumer<HomeCubit,HomeStates>(
+        return Scaffold(
+            body: ConditionalBuilder(
+              condition: category.length>0,
+              builder: (context){
+                return Column(
+                  children: [
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: GridView.count(
+                          crossAxisCount: 2,
+                          childAspectRatio: 190 / 330,
+                          mainAxisSpacing: 10,
+                          crossAxisSpacing: 10,
+                          children: List.generate(
+                              cubit.getCategory(categoryName).length,
+                                  (index) => productItem(context, category[index], index)),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    )
+                  ],
+                );
+              },
+              fallback: (context)=>Center(
+                child: CupertinoActivityIndicator(),
+              ),
+            )
 
-       listener: (context,state){},
-       builder: (context,state){
-         HomeCubit cubit=HomeCubit.get(context);
-         return Scaffold(
-           body: Column(
-             children: [
-               Expanded(
-                 child: Padding(
-                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                   child: GridView.count(
-                     crossAxisCount: 2,
-                     childAspectRatio: 190 / 330,
-                     mainAxisSpacing: 10,
-                     crossAxisSpacing: 10,
-                     children: List.generate(
-                         cubit.getProducts().length,
-                             (index) => productItem(
-                             context,
-                                 cubit.getProducts()[index],
-                             index
-                         )),
-                   ),
-                 ),
-               ),
-               SizedBox(
-                 height: 10,
-               )
-             ],
-           )
+            // StaggeredGridView.countBuilder(
+            //   crossAxisCount: 4,
+            //   itemCount: 10,
+            //    itemBuilder: (BuildContext context, int index) => productItem(context),
+            //   staggeredTileBuilder: (int index) =>
+            //    StaggeredTile.count(2, index.isEven ?3.3  : 4),
+            //   mainAxisSpacing: 10.0,
+            //   crossAxisSpacing: 10.0,
+            // )
 
-         // StaggeredGridView.countBuilder(
-         //   crossAxisCount: 4,
-         //   itemCount: 10,
-         //    itemBuilder: (BuildContext context, int index) => productItem(context),
-         //   staggeredTileBuilder: (int index) =>
-         //    StaggeredTile.count(2, index.isEven ?3.3  : 4),
-         //   mainAxisSpacing: 10.0,
-         //   crossAxisSpacing: 10.0,
-         // )
-
-       );},
-     );
+            );
+      },
+    );
   }
 }
 
-Widget productItem(context, ProductModel model,index) {
+Widget productItem(context, ProductModel model, index) {
   var cubit = DarkCubit.get(context);
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -89,7 +96,7 @@ Widget productItem(context, ProductModel model,index) {
               quantity: model.quantity,
               imageUrl: model.imageUrl,
               inFavorite: model.inFavorite,
-             ));
+            ));
       },
       child: Container(
         width: 200,
