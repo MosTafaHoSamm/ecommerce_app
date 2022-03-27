@@ -1,4 +1,5 @@
 import 'package:ecommerceapplication/screens/cart_widget.dart';
+import 'package:ecommerceapplication/screens/product_details.dart';
 import 'package:ecommerceapplication/shared/cubit/home_cubit.dart';
 import 'package:flutter/material.dart';
 
@@ -305,14 +306,23 @@ class ContentSpace extends StatelessWidget {
   // final int _selectedIndex;
 
   final String brand;
-  ContentSpace(BuildContext context, this.brand,);
+    ContentSpace(BuildContext context, this.brand,);
 
   @override
   Widget build(BuildContext context) {
       var cubit=HomeCubit.get(context);
 
-    print(cubit.getBrand(brand)[0].description);
+    // print(cubit.getBrand(brand)[0].description);
         var model=cubit.getBrand(brand);
+        var products=cubit.products;
+        if(brand=='All')
+          {
+            for(int i =0;i<products.length;i++)
+              {
+                 model.add(products[i]);
+
+              }
+          }
 
     print(brand);
     return Expanded(
@@ -322,9 +332,9 @@ class ContentSpace extends StatelessWidget {
           removeTop: true,
           context: context,
           child: ListView.builder(
-            itemCount: cubit.getBrand(brand).length,
+            itemCount: model.length,
             itemBuilder: (BuildContext context, int index) =>
-            RailWidget(  context,cubit.getBrand(brand)[index] , index),
+            RailWidget(  context,model[index] , index),
           ),
         ),
       ),
@@ -342,18 +352,23 @@ Widget RailWidget(context,ProductModel model,index){
     child: Row(
       children: [
         Expanded(
-          child: Container(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(20)),
-                image: DecorationImage(
-                  fit: BoxFit.fill,
-                  image: NetworkImage(
-                      "${model.imageUrl}"),
-                ),
-                boxShadow: [
-                  BoxShadow(
-                      color: Colors.grey, blurRadius: 3, offset: Offset(2, 2))
-                ]),
+          child: InkWell(
+            borderRadius: BorderRadius.all(Radius.circular(20)),
+            onTap: (){
+              Navigator.pushNamed(context, ProductsDetails.routeName,arguments:  model.id );            },
+            child: Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                  image: DecorationImage(
+                    fit: BoxFit.fill,
+                    image: NetworkImage(
+                        "${model.imageUrl}"),
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.grey, blurRadius: 3, offset: Offset(2, 2))
+                  ]),
+            ),
           ),
         ),
         FittedBox(

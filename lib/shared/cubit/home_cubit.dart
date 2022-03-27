@@ -16,19 +16,19 @@ class HomeCubit extends Cubit<HomeStates> {
 
   List<ProductModel> products = [
     ProductModel(
-        id: "foods",
+        id: "tea",
         title: "ليبتون شاي",
         imageUrl:
             "https://images-na.ssl-images-amazon.com/images/I/91vW5upayCL.__AC_SX300_SY300_QL70_ML2_.jpg",
         description: "ليبتون شاي اخضر كلاسيكي، 100 كيس شاي",
         quantity: 5,
         categoryName: "طعام",
-        brand: "All",
+        brand: "Apple",
         price: 130.50,
         inFavorite: false,
         inPopular: false),
     ProductModel(
-        id: "foods",
+        id: "meat",
         title: "شبكة شواية اللحوم",
         imageUrl:
             "https://m.media-amazon.com/images/I/71XeaKL2qyL._AC_SX522_.jpg",
@@ -40,29 +40,29 @@ class HomeCubit extends Cubit<HomeStates> {
         inFavorite: false,
         inPopular: false),
     ProductModel(
-        id: "مكسرات",
+        id: "mix",
         title: "مكسرات أبو عوف",
         imageUrl: "https://m.media-amazon.com/images/I/51VjYShK-0L._AC_.jpg",
         description: "مكسرات متعددة من ابو عوف، 200 غرام",
         quantity: 5,
         categoryName: "طعام",
-        brand: "All",
+        brand: "Apple",
         price: 130.50,
         inFavorite: false,
         inPopular: false),
     ProductModel(
-        id: "شراب ",
+        id: "juice ",
         title: "شراب سريع التحضير ",
         imageUrl: "https://m.media-amazon.com/images/I/81G16umPeTL._AC_SX569_.jpg",
         description: "شراب سريع التحضير بنكهة المانجو من تانج 450 جرام",
         quantity: 5,
         categoryName: "طعام",
-        brand: "All",
+        brand: "Apple",
         price: 130.50,
         inFavorite: false,
         inPopular: false),
     ProductModel(
-        id: "أحذية",
+        id: "shoes1",
         title: "أحذية رياضية",
         imageUrl: "https://m.media-amazon.com/images/I/31kAbTIftvL._AC_.jpg",
         description:
@@ -74,7 +74,7 @@ class HomeCubit extends Cubit<HomeStates> {
         inFavorite: false,
         inPopular: false),
     ProductModel(
-        id: "أحذية",
+        id: "shoes2",
         title: "صندل شمواه",
         imageUrl: "https://m.media-amazon.com/images/I/41O4uxZv1ZL._AC_.jpg",
         description: "صندل شمواه صناعي فلات مزين بفصوص بشرائط متعددة",
@@ -85,7 +85,7 @@ class HomeCubit extends Cubit<HomeStates> {
         inFavorite: false,
         inPopular: false),
     ProductModel(
-        id: "أحذية",
+        id: "shoes3",
         title: "شبشب",
         imageUrl: "https://m.media-amazon.com/images/I/51mEZXnYpDL._AC_SX500_.jpg",
         description: "شبشب سيول سلايد للنساء من اوندا",
@@ -96,7 +96,7 @@ class HomeCubit extends Cubit<HomeStates> {
         inFavorite: false,
         inPopular: false),
     ProductModel(
-        id: "ساعات المعصم",
+        id: "watch1",
         title: "ساعة مايكل",
         imageUrl:
             "https://m.media-amazon.com/images/I/91nuh9pm6FL._AC_SY500_.jpg",
@@ -108,7 +108,7 @@ class HomeCubit extends Cubit<HomeStates> {
         inFavorite: false,
         inPopular: false),
     ProductModel(
-        id: "ساعات المعصم",
+        id: "watch2",
         title: "ساعة مايكل",
         imageUrl:
             "https://m.media-amazon.com/images/I/61RXMQtXS+L._AC_SX425_.jpg",
@@ -121,7 +121,7 @@ class HomeCubit extends Cubit<HomeStates> {
         inFavorite: false,
         inPopular: false),
     ProductModel(
-        id: "تيفال",
+        id: "pan",
         title: "طاسات تيفال",
         imageUrl:
             "https://m.media-amazon.com/images/I/51z6uvaI3+L._AC_SX425_.jpg",
@@ -133,7 +133,7 @@ class HomeCubit extends Cubit<HomeStates> {
         inFavorite: false,
         inPopular: false),
     ProductModel(
-        id: "سامسونج",
+        id: "screen",
         title: "تلفزيون سمارت بشاشة LED",
         imageUrl:
             "https://m.media-amazon.com/images/I/71xvCVFFOQL._AC_SX679_.jpg",
@@ -146,7 +146,7 @@ class HomeCubit extends Cubit<HomeStates> {
         inFavorite: false,
         inPopular: false),
     ProductModel(
-        id: "ألعاب",
+        id: "dance",
         title: " ألعاب إلكترونية",
         imageUrl:
             "https://m.media-amazon.com/images/I/412BOs2vD1S._AC_SX425_.jpg",
@@ -157,9 +157,9 @@ class HomeCubit extends Cubit<HomeStates> {
         brand: "DELL",
         price: 227.00,
         inFavorite: false,
-        inPopular: false),
+        inPopular: true),
     ProductModel(
-        id: "ألعاب",
+        id: "haircut",
         title: " ماكينة ازالة الشعر سيلك ابيل للعناية",
         imageUrl:
             "https://m.media-amazon.com/images/I/61vS3ne9R0L._AC_SY355_.jpg",
@@ -172,7 +172,7 @@ class HomeCubit extends Cubit<HomeStates> {
         inFavorite: false,
         inPopular: false),
     ProductModel(
-        id: "ألعاب",
+        id: "spray",
         title: "سبراي مزيل لرائحة العرق بيرل اند بيوتي للنساء من نيفيا، 150 مل",
         imageUrl:
             "https://m.media-amazon.com/images/I/61VfI2sQ05L._AC_SY355_.jpg",
@@ -185,7 +185,7 @@ class HomeCubit extends Cubit<HomeStates> {
         inFavorite: false,
         inPopular: false),
     ProductModel(
-        id: "ألعاب",
+        id: "wall",
         title: "تابلوه / تابلوهات مودرن أطفال",
         imageUrl:
             "https://m.media-amazon.com/images/I/7161t5aFwvL._AC_SX425_.jpg",
@@ -193,12 +193,12 @@ class HomeCubit extends Cubit<HomeStates> {
             "تابلوه / تابلوهات مودرن أطفال خشب - برواز - معلقات - صورة - لوحة حائط - حجرة أطفال مقاس 100 في 70 سم (4357)",
         quantity: 5,
         categoryName: " الأثاث",
-        brand: "All",
+        brand: "Apple",
         price: 3001.00,
         inFavorite: false,
         inPopular: false),
     ProductModel(
-        id: "ألعاب",
+        id: "mobileReno",
         title: "موبايل رينو 6 اوروا",
         imageUrl:
             "https://m.media-amazon.com/images/I/41dXAQoIm2L._AC_.jpg",
@@ -209,10 +209,10 @@ class HomeCubit extends Cubit<HomeStates> {
         brand: "Huawei",
         price: 3001.00,
         inFavorite: false,
-        inPopular: false),
+        inPopular: true),
     ProductModel(
-        id: "ألعاب",
-        title: "موبايل رينو 6 اوروا",
+        id: "iphone",
+        title: "موبايل أيفون 13 برو ماكس",
         imageUrl:
             "https://m.media-amazon.com/images/I/61i8Vjb17SL._AC_SX425_.jpg",
         description:
@@ -220,11 +220,11 @@ class HomeCubit extends Cubit<HomeStates> {
         quantity: 5,
         categoryName: " موبايلات",
         brand: "Apple",
-        price: 3001.00,
+        price: 23000.00,
         inFavorite: false,
-        inPopular: false),
+        inPopular: true),
     ProductModel(
-        id: "ألعاب",
+        id: "reno",
         title: "موبايل رينو 6 اوروا",
         imageUrl:
             "https://m.media-amazon.com/images/I/41SpbRJ0SqL._AC_.jpg",
@@ -254,5 +254,12 @@ class HomeCubit extends Cubit<HomeStates> {
     List<ProductModel> barndproducts=products.where((element) =>element.brand.contains(brandName.toString())).toList();
     return barndproducts;
 
+  }
+
+  List<ProductModel>getPopular(){
+    return products.where((element) => element.inPopular).toList();
+  }
+  ProductModel getProductDetails(String productId){
+    return  products.firstWhere((element) => element.id==productId);
   }
 }

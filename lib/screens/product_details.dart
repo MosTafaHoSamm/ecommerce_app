@@ -12,35 +12,43 @@ import 'Cart.dart';
 import 'feeds.dart';
 
 class ProductsDetails extends StatelessWidget {
+
+    static const String routeName='/productScreen';
     ProductsDetails(
         {Key? key,
-          required this.id,
-          required this.title
-          , required this.description,
-          required this.categoryName,
-          required this.imageUrl,
-          required this.quantity,
-          required this.brand,
-          required this.price,
-          required this.inFavorite,
+          // required this.id,
+          // required this.title
+          // , required this.description,
+          // required this.categoryName,
+          // required this.imageUrl,
+          // required this.quantity,
+          // required this.brand,
+          // required this.price,
+          // required this.inFavorite,
+          // required this.inPupolar,
         }) : super(key: key);
 
-    final String id;
-    final String title;
-    final String description;
-    final String categoryName;
-    final String imageUrl;
-    final int quantity;
-    final String brand;
-    final double price;
-    final bool inFavorite;
+    // final String id;
+    // final String title;
+    // final String description;
+    // final String categoryName;
+    // final String imageUrl;
+    // final int quantity;
+    // final String brand;
+    // final double price;
+    // final bool inFavorite;
+    // final bool inPupolar;
 
 
 
     @override
   Widget build(BuildContext context) {
-    var cubit = DarkCubit.get(context);
+      final String  routeArgs=ModalRoute.of(context)?.settings.arguments as String  ;
+       print(routeArgs);
+
+      var cubit = DarkCubit.get(context);
     var cubitH = HomeCubit.get(context);
+    ProductModel model =cubitH.getProductDetails(routeArgs);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: cubit.isDark?Colors.black:Colors.grey.shade700,
@@ -74,7 +82,7 @@ class ProductsDetails extends StatelessWidget {
             child: Container(
                 padding: EdgeInsets.all(16),
                 child: Image.network(
-                    imageUrl)),
+                    model.imageUrl)),
           ),
           SingleChildScrollView(
             child: Column(
@@ -95,7 +103,7 @@ class ProductsDetails extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        title,
+                        model.title,
                         style: TextStyle(
                           color: Theme.of(context).textSelectionColor,
                           fontSize: 20,
@@ -105,7 +113,7 @@ class ProductsDetails extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                       ),
                       Text(
-                        "US \$ ${price}",
+                        "US \$ ${model.price}",
                         style: TextStyle(
                           color: cubit.isDark
                               ? Theme.of(context).disabledColor
@@ -121,7 +129,7 @@ class ProductsDetails extends StatelessWidget {
                         child: Divider(thickness: 1),
                       ),
                       Text(
-                        description,
+                        model.description,
                         style: TextStyle(
                           color: cubit.isDark
                               ? Theme.of(context).disabledColor
@@ -136,10 +144,10 @@ class ProductsDetails extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(vertical: 10),
                         child: Divider(thickness: 1),
                       ),
-                      _details(context, "Brand", brand),
-                      _details(context, "Quantity", "${quantity} Left"),
-                      _details(context, "Category", categoryName),
-                      _details(context, "Popularity", inFavorite),
+                      _details(context, "Brand", model.brand),
+                      _details(context, "Quantity", "${model.quantity} Left"),
+                      _details(context, "Category", model.categoryName),
+                      _details(context, "Popularity", model.inPopular?"people purchased this product":"not yet"),
                       SizedBox(
                         height: 10,
                       ),

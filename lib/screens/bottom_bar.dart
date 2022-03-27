@@ -28,7 +28,7 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
         'page': HomeScreen(),
       },
       {
-        'page': FeedsScreen(),
+        'page': FeedsScreen(  ),
       },
       {
         'page': SearchScreen(),

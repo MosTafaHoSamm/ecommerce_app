@@ -16,80 +16,91 @@ import '../models/product_model.dart';
 import '../shared/cubit/dark_cubit/dark_cubit.dart';
 
 class FeedsScreen extends StatelessWidget {
-  FeedsScreen({Key? key,}) : super(key: key);
+  FeedsScreen({
+    Key? key,
+    argument
+  }) : super(key: key);
   static const routeName = '/feeds';
-    @override
+  @override
   Widget build(BuildContext context) {
 
-     // LayoutProvider provider=Provider.of<LayoutProvider>(context);
+    // LayoutProvider provider=Provider.of<LayoutProvider>(context);
 
-     return BlocConsumer<HomeCubit,HomeStates>(
+    return BlocConsumer<HomeCubit, HomeStates>(
+      listener: (context, state) {},
+      builder: (context, state) {
+        String? popular = ModalRoute.of(context)?.settings.arguments.toString()  ;
 
-       listener: (context,state){},
-       builder: (context,state){
-         HomeCubit cubit=HomeCubit.get(context);
-         return Scaffold(
-           body: Column(
-             children: [
-               Expanded(
-                 child: Padding(
-                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                   child: GridView.count(
-                     crossAxisCount: 2,
-                     childAspectRatio: 190 / 330,
-                     mainAxisSpacing: 10,
-                     crossAxisSpacing: 10,
-                     children: List.generate(
-                         cubit.getProducts().length,
-                             (index) => productItem(
-                             context,
-                                 cubit.getProducts()[index],
-                             index
-                         )),
-                   ),
-                 ),
-               ),
-               SizedBox(
-                 height: 10,
-               )
-             ],
-           )
+        HomeCubit cubit = HomeCubit.get(context);
+        var model = cubit.getProducts();
 
-         // StaggeredGridView.countBuilder(
-         //   crossAxisCount: 4,
-         //   itemCount: 10,
-         //    itemBuilder: (BuildContext context, int index) => productItem(context),
-         //   staggeredTileBuilder: (int index) =>
-         //    StaggeredTile.count(2, index.isEven ?3.3  : 4),
-         //   mainAxisSpacing: 10.0,
-         //   crossAxisSpacing: 10.0,
-         // )
+         if (popular == 'popular') {
+          model = cubit.getPopular();
+         }
 
-       );},
-     );
+        return Scaffold(
+            body: Column(
+          children: [
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: GridView.count(
+                  crossAxisCount: 2,
+                  childAspectRatio: 190 / 330,
+                  mainAxisSpacing: 10,
+                  crossAxisSpacing: 10,
+                  children: List.generate(model.length,
+                      (index) => productItem(context, model[index], index)),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            )
+          ],
+        )
+
+            // StaggeredGridView.countBuilder(
+            //   crossAxisCount: 4,
+            //   itemCount: 10,
+            //    itemBuilder: (BuildContext context, int index) => productItem(context),
+            //   staggeredTileBuilder: (int index) =>
+            //    StaggeredTile.count(2, index.isEven ?3.3  : 4),
+            //   mainAxisSpacing: 10.0,
+            //   crossAxisSpacing: 10.0,
+            // )
+
+            );
+      },
+    );
   }
 }
 
-Widget productItem(context, ProductModel model,index) {
+Widget productItem(context, ProductModel model, index) {
   var cubit = DarkCubit.get(context);
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 8.0),
     child: InkWell(
       borderRadius: BorderRadius.all(Radius.circular(40)),
       onTap: () {
-        navigateAndFinish(
-            context,
-            ProductsDetails(
-              title: model.title,
-              id: model.id,
-              categoryName: model.categoryName,
-              description: model.description,
-              brand: model.brand,
-              price: model.price,
-              quantity: model.quantity,
-              imageUrl: model.imageUrl,
-              inFavorite: model.inFavorite,
-             ));
+        Navigator.pushNamed(context, ProductsDetails.routeName,
+            arguments: model.id);
+        // navigateAndFinish(
+        //     context,
+        //     ProductsDetails(
+        //       title: model.title,
+        //       id: model.id,
+        //       categoryName: model.categoryName,
+        //       description: model.description,
+        //       brand: model.brand,
+        //       price: model.price,
+        //       quantity: model.quantity,
+        //       imageUrl: model.imageUrl,
+        //       inFavorite: model.inFavorite,
+        //       inPupolar: model.inPopular,
+        //       )
+        //
+        // );
       },
       child: Container(
         width: 200,

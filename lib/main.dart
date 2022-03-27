@@ -60,6 +60,7 @@ class MyApp extends StatelessWidget {
                 '/feeds':(context)=>FeedsScreen(),
                 '/categoryscreen':(context)=>CategoryScreen(),
                 '/brandRailScreen':(context)=>BrandRailScreen(),
+                "/productScreen":(context)=>ProductsDetails(),
 
               },
             title: 'أسواق ياسين',

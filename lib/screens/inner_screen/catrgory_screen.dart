@@ -84,19 +84,23 @@ Widget productItem(context, ProductModel model, index) {
     child: InkWell(
       borderRadius: BorderRadius.all(Radius.circular(40)),
       onTap: () {
-        navigateAndFinish(
-            context,
-            ProductsDetails(
-              title: model.title,
-              id: model.id,
-              categoryName: model.categoryName,
-              description: model.description,
-              brand: model.brand,
-              price: model.price,
-              quantity: model.quantity,
-              imageUrl: model.imageUrl,
-              inFavorite: model.inFavorite,
-            ));
+        Navigator.pushNamed(context, ProductsDetails.routeName,arguments: model.id);
+
+        // navigateAndFinish(
+        //     context,
+        //     ProductsDetails(
+
+              // title: model.title,
+              // id: model.id,
+              // categoryName: model.categoryName,
+              // description: model.description,
+              // brand: model.brand,
+              // price: model.price,
+              // quantity: model.quantity,
+              // imageUrl: model.imageUrl,
+              // inFavorite: model.inFavorite,
+              // inPupolar: model.inPopular,
+            // ));
       },
       child: Container(
         width: 200,
