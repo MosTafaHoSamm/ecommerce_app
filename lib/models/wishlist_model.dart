@@ -1,14 +1,12 @@
-class CartItemModel {
+class WishListItemModel {
   final String title;
   final String id;
   final double price;
   final String imageUrl;
-        int quantity;
 
-  CartItemModel(
+  WishListItemModel(
       {required this.title,
       required this.price,
       required this.imageUrl,
-      required this.quantity,
-      required this.id});
+       required this.id});
 }

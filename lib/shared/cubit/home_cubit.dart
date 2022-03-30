@@ -92,7 +92,7 @@ class HomeCubit extends Cubit<HomeStates> {
         quantity: 3,
         categoryName: "الملابس",
         brand: "Adidas",
-        price: 200.00,
+        price: 200.454,
         inFavorite: false,
         inPopular: false),
     ProductModel(

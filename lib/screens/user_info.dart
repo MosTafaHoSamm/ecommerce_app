@@ -1,3 +1,4 @@
+import 'package:ecommerceapplication/screens/Cart.dart';
 import 'package:ecommerceapplication/screens/wishlist.dart';
 import 'package:ecommerceapplication/shared/themes/icons.dart';
 import 'package:flutter/material.dart';
@@ -153,6 +154,9 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                           color: Colors.grey[300],
                         ),
                         itemChevreon(
+                          onTap: (){
+                            Navigator.pushNamed(context, WishListScreen().routeName);
+                          },
                           color: Colors.redAccent,
                             fontAwesome: MyIcon.wishList,
                             text: "Wishlist",
@@ -162,13 +166,19 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                               navigateAndFinish(context,WishListScreen());
                             }),
                         itemChevreon(
+                          onTap: (){
+                            Navigator.pushNamed(context, CartScreen.routeName);
+                          },
                           color: Colors.amber.shade900,
                             fontAwesome: MyIcon.shopping,
                             text: "Cart"
                             ,
                             icons: icons,
                             index: 6,
-                            onPressed: () {}),
+                            onPressed: () {
+                              Navigator.pushNamed(context, CartScreen.routeName);
+
+                            }),
                         Padding(
                             padding: EdgeInsetsDirectional.only(start: 10),
                             child: titleitem(text: "User Information")),
@@ -288,12 +298,15 @@ Widget titleitem({required String text}) {
   );
 }
 
-Widget itemChevreon({fontAwesome, index, icons, text, onPressed,color}) {
-  return ListTile(
-      leading: Icon(
-        fontAwesome,
-        color: color,
-      ),
-      trailing: IconButton(onPressed: onPressed, icon: Icon(icons[index])),
-      title: Text(text));
+Widget itemChevreon({fontAwesome, index, icons, text, onPressed,color,onTap}) {
+  return InkWell(
+    onTap:onTap ,
+    child: ListTile(
+        leading: Icon(
+          fontAwesome,
+          color: color,
+        ),
+        trailing: IconButton(onPressed: onPressed, icon: Icon(icons[index])),
+        title: Text(text)),
+  );
 }

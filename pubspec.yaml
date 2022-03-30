@@ -46,6 +46,8 @@ dependencies:
   carousel_slider: ^4.0.0
   flutter_swiper_plus: ^2.0.4
   conditional_builder_null_safety: ^0.0.6
+  fluttertoast: ^8.0.9
+
 
 
 
