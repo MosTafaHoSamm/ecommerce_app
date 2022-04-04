@@ -12,6 +12,7 @@ class DarkTheme {
       primaryColor: isDark?Colors.black:Colors.grey[300],
       accentColor: Colors.blueAccent,
       backgroundColor: isDark?Colors.grey.shade500:Colors.white,
+      // cardColor:  isDark?Colors.grey.shade500:Colors.white,
       indicatorColor: isDark?Color(0xff0E1D36):Color(0xffCBDCF8),
       buttonColor:isDark?Color(0xff3B3B3B) : Color(0xffF1F5FB),
       hintColor: isDark? Colors.grey.shade300 : Colors.grey.shade800,
@@ -20,13 +21,13 @@ class DarkTheme {
       focusColor: isDark ? Color(0xff0B2512) : Color(0xffA8DAB5),
       disabledColor: Colors.grey,
       textSelectionColor: isDark ? Colors.white : Colors.black,
-      cardColor: isDark ? Color(0xFF151515) : Colors.white,
+      cardColor: isDark ? Color(0xFF151515) : Colors.grey.shade300,
       canvasColor: isDark ? Colors.black : Colors.grey[50],
       brightness: isDark ? Brightness.dark : Brightness.light,
       buttonTheme: Theme.of(context).buttonTheme.copyWith(colorScheme: isDark ? ColorScheme.dark() : ColorScheme.light()),
       appBarTheme: AppBarTheme(
-         elevation: 0.0,
-        systemOverlayStyle: SystemUiOverlayStyle( statusBarIconBrightness:isDark?Brightness.light:Brightness.dark)
+          elevation: 0.0,
+          systemOverlayStyle: SystemUiOverlayStyle( statusBarIconBrightness:isDark?Brightness.light:Brightness.dark)
       ),
 
 

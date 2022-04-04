@@ -31,7 +31,7 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
         'page': FeedsScreen(  ),
       },
       {
-        'page': SearchScreen(),
+        'page': Search(),
       },
       {
         'page':CartScreen (),

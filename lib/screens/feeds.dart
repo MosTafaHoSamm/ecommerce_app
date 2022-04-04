@@ -1,5 +1,7 @@
 import 'package:badges/badges.dart';
+import 'package:ecommerceapplication/screens/feeds_dialog.dart';
 import 'package:ecommerceapplication/screens/product_details.dart';
+import 'package:ecommerceapplication/screens/wishlist.dart';
 import 'package:ecommerceapplication/shared/components/components.dart';
 import 'package:ecommerceapplication/shared/cubit/home_cubit.dart';
 import 'package:ecommerceapplication/shared/cubit/home_states.dart';
@@ -14,6 +16,7 @@ import 'package:staggered_grid_view_flutter/widgets/staggered_tile.dart';
 
 import '../models/product_model.dart';
 import '../shared/cubit/dark_cubit/dark_cubit.dart';
+import 'Cart.dart';
 
 class FeedsScreen extends StatelessWidget {
   FeedsScreen({
@@ -34,43 +37,57 @@ class FeedsScreen extends StatelessWidget {
         HomeCubit cubit = HomeCubit.get(context);
         var model = cubit.getProducts();
 
-         if (popular == 'popular') {
+        if (popular == 'popular') {
           model = cubit.getPopular();
-         }
+        }
 
         return Scaffold(
-            body: Column(
-          children: [
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: GridView.count(
-                  crossAxisCount: 2,
-                  childAspectRatio: 190 / 330,
-                  mainAxisSpacing: 10,
-                  crossAxisSpacing: 10,
-                  children: List.generate(model.length,
-                      (index) => productItem(context, model[index], index)),
+            appBar: AppBar(
+              backgroundColor: Theme.of(context).backgroundColor,
+              title: Text(
+                "Feeds",
+                style: TextStyle(
+                    color: Theme.of(context).textSelectionColor
                 ),
               ),
+              actions: [
+                wishListListener(widget: WishListScreen(),context:   context),
+                cartListener(widget: CartScreen(), context: context,),
+                SizedBox(width: 10,),
+              ],
             ),
-            SizedBox(
-              height: 10,
+            body: Column(
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 8.0,left: 8,top: 8),
+                    child: GridView.count(
+                      crossAxisCount: 2,
+                      childAspectRatio: 190 / 330,
+                      mainAxisSpacing: 10,
+                      crossAxisSpacing: 10,
+                      children: List.generate(model.length,
+                              (index) => productItem(context, model[index], index)),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                )
+              ],
             )
-          ],
-        )
 
-            // StaggeredGridView.countBuilder(
-            //   crossAxisCount: 4,
-            //   itemCount: 10,
-            //    itemBuilder: (BuildContext context, int index) => productItem(context),
-            //   staggeredTileBuilder: (int index) =>
-            //    StaggeredTile.count(2, index.isEven ?3.3  : 4),
-            //   mainAxisSpacing: 10.0,
-            //   crossAxisSpacing: 10.0,
-            // )
+          // StaggeredGridView.countBuilder(
+          //   crossAxisCount: 4,
+          //   itemCount: 10,
+          //    itemBuilder: (BuildContext context, int index) => productItem(context),
+          //   staggeredTileBuilder: (int index) =>
+          //    StaggeredTile.count(2, index.isEven ?3.3  : 4),
+          //   mainAxisSpacing: 10.0,
+          //   crossAxisSpacing: 10.0,
+          // )
 
-            );
+        );
       },
     );
   }
@@ -135,7 +152,7 @@ Widget productItem(context, ProductModel model, index) {
                     badgeColor: Colors.red,
                     borderRadius: BorderRadius.circular(30),
                     badgeContent:
-                        Text('New', style: TextStyle(color: Colors.white)),
+                    Text('New', style: TextStyle(color: Colors.white)),
                   ),
                 ),
               ],
@@ -178,14 +195,16 @@ Widget productItem(context, ProductModel model, index) {
                                 .textTheme
                                 .caption
                                 ?.copyWith(
-                                    fontSize: 14, fontWeight: FontWeight.w500)),
+                                fontSize: 14, fontWeight: FontWeight.w500)),
                         Material(
                           color: Colors.transparent,
                           child: InkWell(
                               radius: 20,
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(20)),
-                              onTap: () {},
+                              BorderRadius.all(Radius.circular(20)),
+                              onTap: () {
+                                showDialog(context: context, builder: (context)=>FeedsDialog(  model: model,productId: model.id,));
+                              },
                               child: Icon(
                                 Icons.more_horiz_rounded,
                                 color: Colors.grey,
