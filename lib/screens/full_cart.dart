@@ -42,7 +42,7 @@ class FullCart extends StatelessWidget {
               IconButton(
                 onPressed: () {
                   showAlertDialog(
-                    context: context,
+                      context: context,
                       ok: () {
                         cubitCart.emptyCart();
                         Navigator.pop(context);
@@ -157,7 +157,7 @@ Widget itemBuild(context, CartItemModel cartItem, index) {
           children: [
             Container(
               height: 130,
-              width: 130,
+              width: 100,
               decoration: BoxDecoration(
                   image: DecorationImage(
                       image: NetworkImage("${cartItem.imageUrl}"),
@@ -271,38 +271,41 @@ Widget itemBuild(context, CartItemModel cartItem, index) {
                         ),
                         Spacer(),
                         Material(
-                          borderRadius: BorderRadius.all(Radius.circular(100)),
                           color: Colors.transparent,
-                          child: InkWell(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(40)),
-                              radius: 100,
-                              splashColor: Theme.of(context).splashColor,
-                              onTap: cartItem.quantity > 1
-                                  ? () {
-                                      cubitCart.addNewItemToCart(
-                                          option: 'minus',
-                                          id: cartItem.id,
-                                          title: cartItem.title,
-                                          imageUrl: cartItem.imageUrl,
-                                          price: cartItem.price);
-                                    }
-                                  : () {},
-// another method to use minus button
-                              // cubitCart.minusButton(cartItem.id);
-                              // print(cartItem.quantity);
-                              child: Icon(
-                                FontAwesomeIcons.minus,
-                                color: Colors.redAccent,
-                                size: 16,
-                              )),
+                           child: CircleAvatar(
+
+                               radius: 15,
+
+                               backgroundColor:Colors.transparent,
+                              child: IconButton(
+
+                                padding: EdgeInsets.all(0),
+
+                                   icon: Icon(
+
+                                       FontAwesomeIcons.minus,
+                                  color:Colors.red),
+                                  onPressed: cartItem.quantity > 1
+                                      ? () {
+                                          cubitCart.addNewItemToCart(
+                                              option: 'minus',
+                                              id: cartItem.id,
+                                              title: cartItem.title,
+                                              imageUrl: cartItem.imageUrl,
+                                              price: cartItem.price);
+                                        }
+                                      : () {},iconSize:15,)),
                         ),
+                        // another method to use minus button
+                        // cubitCart.minusButton(cartItem.id);
+                        // print(cartItem.quantity);
+
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
                           child: Container(
                             decoration: BoxDecoration(
                                 borderRadius:
-                                    BorderRadius.all(Radius.circular(40)),
+                                    BorderRadius.all(Radius.circular(30)),
                                 gradient: LinearGradient(colors: [
                                   ColorsConsts.gradiendLStart,
                                   ColorsConsts.gradiendLEnd,
@@ -323,23 +326,47 @@ Widget itemBuild(context, CartItemModel cartItem, index) {
                           ),
                         ),
                         Material(
-                          borderRadius: BorderRadius.all(Radius.circular(40)),
                           color: Colors.transparent,
-                          child: InkWell(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(20)),
-                              radius: 50,
-                              splashColor: Theme.of(context).splashColor,
-                              onTap: () {
-                                cubitCart.plusButton(cartItem.id);
-                                print(cartItem.quantity);
-                              },
-                              child: Icon(
-                                FontAwesomeIcons.plus,
-                                color: Colors.green.shade700,
-                                size: 16,
-                              )),
+                           child: CircleAvatar(
+                             radius: 15,
+                              backgroundColor:Colors.transparent,
+                              child: IconButton(
+                                iconSize: 15,
+                                  padding: EdgeInsets.all(0),
+
+                                  icon: Icon(FontAwesomeIcons.plus,
+                                      color:Colors.red),
+                                  onPressed:  () {
+
+                                    cubitCart.plusButton(cartItem.id);
+                                    //         print(cartItem.quantity);
+                                    // cubitCart.addNewItemToCart(
+                                    //     option: 'minus',
+                                    //     id: cartItem.id,
+                                    //     title: cartItem.title,
+                                    //     imageUrl: cartItem.imageUrl,
+                                    //     price: cartItem.price);
+                                  }
+                                       )),
                         ),
+                        // Material(
+                        //   borderRadius: BorderRadius.all(Radius.circular(40)),
+                        //   color: Colors.red,
+                        //   child: InkWell(
+                        //       borderRadius:
+                        //           BorderRadius.all(Radius.circular(20)),
+                        //       radius: 30,
+                        //       splashColor: Theme.of(context).splashColor,
+                        //       onTap: () {
+                        //         cubitCart.plusButton(cartItem.id);
+                        //         print(cartItem.quantity);
+                        //       },
+                        //       child: Icon(
+                        //         FontAwesomeIcons.plus,
+                        //         color: Colors.green.shade700,
+                        //         size: 20,
+                        //       )),
+                        // ),
                       ],
                     ),
                   ],
