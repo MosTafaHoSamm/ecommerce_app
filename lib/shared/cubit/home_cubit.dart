@@ -262,4 +262,7 @@ class HomeCubit extends Cubit<HomeStates> {
   ProductModel getProductDetails(String productId){
     return  products.firstWhere((element) => element.id==productId);
   }
+  List<ProductModel>searchQuery(value){
+    return products.where((element) => element.title.contains(value)).toList();
+  }
 }
