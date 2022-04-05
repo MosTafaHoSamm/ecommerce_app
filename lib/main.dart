@@ -1,3 +1,4 @@
+import 'package:ecommerceapplication/auth/login_screen.dart';
 import 'package:ecommerceapplication/models/product_model.dart';
 import 'package:ecommerceapplication/screens/Cart.dart';
 import 'package:ecommerceapplication/screens/bottom_bar.dart';
@@ -26,6 +27,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
+
+import 'auth/signup/signup_screen.dart';
 
 void main() async{
 
@@ -90,6 +93,8 @@ class MyApp extends StatelessWidget {
               "/productScreen":(context)=>ProductsDetails(),
               "/wishlistScreen":(context)=>  WishListScreen(),
               "/cartScreen":(context)=>  CartScreen(),
+              "/LoginScreen":(context)=>  LoginScreen(),
+              SignupScreen.routeName:(context)=>  SignupScreen(),
               "/feedsDialog":(context)=>  FeedsDialog(productId: '', ),
 
             },

@@ -103,3 +103,47 @@ Widget wishListListener(
         );
       },),);
 }
+Widget defaultTextForm({
+
+  TextInputAction? action,
+FocusNode? focusNode,
+  TextInputType? type,
+  required String text,
+  required String key,
+  required IconData icon,
+    IconData? suffix,
+    bool isSecure=false,
+      required  String ? Function ( String? value) validate,
+  Function()?suffixPressed,
+    Function()?onEditingComplete,
+    Function(String value)?onSubmit,
+  Function(String? value)?onSaved,
+
+}){
+  return Padding(
+    padding: const EdgeInsets.all(10.0),
+    child: TextFormField(
+      onFieldSubmitted: onSubmit,
+      textInputAction: action,
+      focusNode: focusNode,
+      onSaved: onSaved,
+      onEditingComplete : onEditingComplete,
+      key: Key(key),
+      keyboardType: type,
+      validator: validate ,
+      obscureText: isSecure,
+      style: TextStyle(color: Colors.grey.shade500),
+      decoration: InputDecoration(
+          border: OutlineInputBorder(borderSide: BorderSide.none ),
+          prefixIcon: Icon(
+            icon,color: Colors.grey,),
+          // label: Text("email"),
+          filled: true,
+          fillColor: Colors.white,
+          hintText: text,
+        suffixIcon: suffix!=null?IconButton(onPressed:suffixPressed,icon: Icon(suffix,color: Colors.grey,)):null,
+
+      ),
+    ),
+  );
+}
