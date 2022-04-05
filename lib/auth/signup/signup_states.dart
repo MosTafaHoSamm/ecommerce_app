@@ -1,3 +1,4 @@
-abstract class LoginStates{}
- class LoginInitialState extends LoginStates{}
- class ChangeVisibilityState extends LoginStates{}
+abstract class SignupStates{}
+ class SignupInitialState extends SignupStates{}
+ class ChangeVisibilityState extends SignupStates{}
+ class ChangePhotoState extends SignupStates{}

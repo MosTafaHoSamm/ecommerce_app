@@ -95,6 +95,7 @@ class MyApp extends StatelessWidget {
               "/cartScreen":(context)=>  CartScreen(),
               "/LoginScreen":(context)=>  LoginScreen(),
               SignupScreen.routeName:(context)=>  SignupScreen(),
+              BottomNavigationBarScreen.routeName:(context)=>  BottomNavigationBarScreen(),
               "/feedsDialog":(context)=>  FeedsDialog(productId: '', ),
 
             },

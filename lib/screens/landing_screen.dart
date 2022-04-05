@@ -1,5 +1,6 @@
 import 'package:ecommerceapplication/auth/login_screen.dart';
 import 'package:ecommerceapplication/auth/signup/signup_screen.dart';
+import 'package:ecommerceapplication/screens/bottom_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -262,7 +263,9 @@ class _LandingScreenState extends State<LandingScreen> with TickerProviderStateM
                 height: 20,
               ),
               OutlinedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, BottomNavigationBarScreen.routeName);
+                },
                 style: ButtonStyle(
                     side: MaterialStateProperty.all(
                         BorderSide(color: Colors.deepOrange, width: 2)),

@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:ecommerceapplication/auth/signup/signup_cubit.dart';
+import 'package:ecommerceapplication/auth/signup/signup_states.dart';
 import 'package:ecommerceapplication/shared/themes/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,15 +25,15 @@ class SignupScreen extends StatelessWidget {
   FocusNode passwordFocusNode = FocusNode();
   FocusNode emailFocusNode = FocusNode();
   FocusNode phoneFocusNode = FocusNode();
-  File? pickedImage;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => LoginCubit(),
-      child: BlocConsumer<LoginCubit, LoginStates>(
+      create: (context) => SignupCubit(),
+      child: BlocConsumer<SignupCubit, SignupStates>(
           listener: (context, state) => {},
           builder: (context, state) {
+            var cubit=SignupCubit.get(context);
             return Scaffold(
               backgroundColor: Colors.grey.shade300,
               body: SingleChildScrollView(
@@ -79,10 +81,11 @@ class SignupScreen extends StatelessWidget {
                                 child: CircleAvatar(
                                   radius: 67,
                                   backgroundColor: ColorsConsts.gradiendFEnd,
-                                  backgroundImage:pickedImage==null? null:FileImage(pickedImage!),
+                                  backgroundImage:cubit.pickedImage==null? null:FileImage(cubit.pickedImage!),
                                 ),
                               ),
                             ),
+
                             Positioned(
                               top: 110,
                               left: 110,
@@ -103,7 +106,11 @@ class SignupScreen extends StatelessWidget {
                                             children: [
                                               InkWell(
 
-                                                onTap: (){},
+                                                onTap: (){
+                                                  cubit.getImageCamera( );
+                                                  Navigator.pop(context);
+
+                                                },
                                                 splashColor: Colors.purple,
                                                 child: Row(
                                                   children: [
@@ -118,7 +125,12 @@ class SignupScreen extends StatelessWidget {
                                               ),
                                               InkWell(
 
-                                                onTap: (){},
+                                                onTap:
+                                                  // SignupCubit.get(context).getImageGallery
+                                                    (){ cubit.getImageGallery();
+                                                    Navigator.pop(context);
+
+                                                    }                                                 ,
                                                 splashColor: Colors.purple,
                                                 child: Row(
                                                   children: [
@@ -133,7 +145,10 @@ class SignupScreen extends StatelessWidget {
                                               ),
                                               InkWell(
 
-                                                onTap: (){},
+                                                onTap: (){
+                                                  cubit.remove();
+                                                  Navigator.pop(context);
+                                                },
                                                 splashColor: Colors.purple,
                                                 child: Row(
                                                   children: [
@@ -253,10 +268,10 @@ class SignupScreen extends StatelessWidget {
                                   onSaved: (value) {
                                     _password = value!;
                                   },
-                                  isSecure: LoginCubit.get(context).isSecure,
+                                  isSecure: SignupCubit.get(context).isSecure,
                                   suffix: Icons.visibility,
                                   suffixPressed: () {
-                                    LoginCubit.get(context).changeVisibility();
+                                    SignupCubit.get(context).changeVisibility();
                                     print("Done");
                                   },
                                   text: "password",

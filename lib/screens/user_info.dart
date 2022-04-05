@@ -10,7 +10,7 @@ import '../shared/cubit/dark_cubit/dark_states.dart';
 import '../shared/cubit/home_cubit.dart';
 import '../shared/cubit/dark_cubit/dark_cubit.dart';
 import '../shared/cubit/home_states.dart';
- import '../shared/network/local/cache.dart';
+import '../shared/network/local/cache.dart';
 
 class UserInfoScreen extends StatefulWidget {
   @override
@@ -154,30 +154,31 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                           color: Colors.grey[300],
                         ),
                         itemChevreon(
-                          onTap: (){
-                            Navigator.pushNamed(context, WishListScreen().routeName);
-                          },
-                          color: Colors.redAccent,
+                            onTap: () {
+                              Navigator.pushNamed(
+                                  context, WishListScreen().routeName);
+                            },
+                            color: Colors.redAccent,
                             fontAwesome: MyIcon.wishList,
                             text: "Wishlist",
                             icons: icons,
                             index: 6,
                             onPressed: () {
-                              navigateAndFinish(context,WishListScreen());
+                              navigateAndFinish(context, WishListScreen());
                             }),
                         itemChevreon(
-                          onTap: (){
-                            Navigator.pushNamed(context, CartScreen.routeName);
-                          },
-                          color: Colors.amber.shade900,
+                            onTap: () {
+                              Navigator.pushNamed(
+                                  context, CartScreen.routeName);
+                            },
+                            color: Colors.amber.shade900,
                             fontAwesome: MyIcon.shopping,
-                            text: "Cart"
-                            ,
+                            text: "Cart",
                             icons: icons,
                             index: 6,
                             onPressed: () {
-                              Navigator.pushNamed(context, CartScreen.routeName);
-
+                              Navigator.pushNamed(
+                                  context, CartScreen.routeName);
                             }),
                         Padding(
                             padding: EdgeInsetsDirectional.only(start: 10),
@@ -209,7 +210,12 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                             onChanged: (value) {
                               cubit.changeMode();
                             }),
-                        listTile(context, 'SignOut', '', icons, 5),
+                        listTile(context, 'SignOut', '', icons, 5,
+                            onPressed: () {
+                          Navigator.canPop(context)
+                              ? Navigator.pop(context)
+                              : null;
+                        }),
                         SizedBox(
                           height: 60,
                         ),
@@ -255,7 +261,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
         //to shrink fabButton
         transform: Matrix4.identity()..scale(scale),
         child: FloatingActionButton(
-          heroTag: 'Hero1',
+            heroTag: 'Hero1',
             backgroundColor:
                 cubit.isDark ? Colors.lightBlueAccent : Colors.blue,
             onPressed: () {
@@ -267,18 +273,13 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
   }
 }
 
-Widget listTile(
-  BuildContext context,
-  title,
-  subtitle,
-  List icons,
-  index,
-) {
+Widget listTile(BuildContext context, title, subtitle, List icons, index,
+    {Function()? onPressed}) {
   return Material(
     color: Colors.transparent,
     child: InkWell(
       splashColor: Theme.of(context).splashColor,
-      onTap: () {},
+      onTap: onPressed,
       child: ListTile(
         title: Text(title),
         subtitle: Text(subtitle),
@@ -298,9 +299,10 @@ Widget titleitem({required String text}) {
   );
 }
 
-Widget itemChevreon({fontAwesome, index, icons, text, onPressed,color,onTap}) {
+Widget itemChevreon(
+    {fontAwesome, index, icons, text, onPressed, color, onTap}) {
   return InkWell(
-    onTap:onTap ,
+    onTap: onTap,
     child: ListTile(
         leading: Icon(
           fontAwesome,
