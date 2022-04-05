@@ -96,6 +96,8 @@ class MyApp extends StatelessWidget {
             title: 'أسواق ياسين',
             theme: DarkTheme.themeData(context: context, isDark:cubit.isDark  ),
             home: LandingScreen(),
+
+
             debugShowCheckedModeBanner: false,
 
 
