@@ -1,3 +1,6 @@
+import 'package:ecommerceapplication/auth/login_screen.dart';
+import 'package:ecommerceapplication/auth/signup/signup_screen.dart';
+import 'package:ecommerceapplication/screens/bottom_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -132,7 +135,9 @@ class _LandingScreenState extends State<LandingScreen> with TickerProviderStateM
                               ),
                             ),
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.pushNamed(context, LoginScreen.routeName);
+                          },
                           child: Text(
                             "Login",
                             style: TextStyle(
@@ -157,7 +162,9 @@ class _LandingScreenState extends State<LandingScreen> with TickerProviderStateM
                               ),
                             ),
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.pushNamed(context, SignupScreen.routeName);
+                          },
                           child: Text(
                             "Signup",
                             style: TextStyle(
@@ -212,15 +219,17 @@ class _LandingScreenState extends State<LandingScreen> with TickerProviderStateM
                     color: Colors.deepOrange,
                     highlightedBorderColor: Colors.deepOrange.shade200,
                     borderSide: BorderSide(color: Colors.deepOrange, width: 2),
-                    child: Row(
+                    child:  Row(
                       children: [
+                        Icon(FontAwesomeIcons.googlePlusG,size: 18,color: Colors.deepOrange,),
+                        SizedBox(width: 10,),
                         Text(
-                          "Google +",
-                          style:
-                          TextStyle(color: Colors.deepOrange, fontSize: 16),
-                        )
+                          "Google",
+                          style: TextStyle(
+                              color: Colors.deepOrange, fontSize: 16),
+                        ),
                       ],
-                    ),
+                    )
                   ),
                   SizedBox(
                     width: 10,
@@ -254,7 +263,9 @@ class _LandingScreenState extends State<LandingScreen> with TickerProviderStateM
                 height: 20,
               ),
               OutlinedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, BottomNavigationBarScreen.routeName);
+                },
                 style: ButtonStyle(
                     side: MaterialStateProperty.all(
                         BorderSide(color: Colors.deepOrange, width: 2)),

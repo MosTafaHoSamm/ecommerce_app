@@ -12,14 +12,17 @@ import '../shared/themes/icons.dart';
 import 'home.dart';
 
 class BottomNavigationBarScreen extends StatefulWidget {
+  static String routeName='/BottomNavigationBarScreen';
   @override
   _BottomNavigationBarScreenState createState() {
+
     return _BottomNavigationBarScreenState();
   }
 }
 
 class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
   late List<Map<String, Widget>> screens;
+
   @override
   void initState() {
     // TODO: implement initState

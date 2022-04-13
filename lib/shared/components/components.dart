@@ -103,3 +103,59 @@ Widget wishListListener(
         );
       },),);
 }
+Widget defaultTextForm({
+
+  TextInputAction? action,
+FocusNode? focusNode,
+  TextInputType? type,
+  required String text,
+  required TextEditingController controller,
+  required String key,
+  required IconData icon,
+    IconData? suffix,
+    bool isSecure=false,
+      required  String ? Function ( String? value) validate,
+  Function()?suffixPressed,
+    Function()?onEditingComplete,
+    Function(String value)?onSubmit,
+  Function(String? value)?onSaved,
+
+}){
+  return Padding(
+    padding: const EdgeInsets.symmetric(vertical: 5.0,horizontal: 20),
+    child: Container(
+      
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(20)),
+          boxShadow: [BoxShadow(color: Colors.grey,offset: Offset(2,2),blurRadius: 3,spreadRadius: 1)]),
+      height: 50,
+      child: TextFormField(
+        controller: controller,
+        onFieldSubmitted: onSubmit,
+        textInputAction: action,
+        focusNode: focusNode,
+        onSaved: onSaved,
+        onEditingComplete : onEditingComplete,
+        key: Key(key),
+        keyboardType: type,
+        validator: validate ,
+        obscureText: isSecure,
+        style: TextStyle(color: Colors.black),
+
+        decoration: InputDecoration(
+
+            border: OutlineInputBorder(borderSide: BorderSide.none,borderRadius: BorderRadius.all(Radius.circular(20)) ),
+            prefixIcon: Icon(
+              icon,color: Colors.grey,size: 12,),
+            // label: Text("email"),
+            filled: true,
+            fillColor: Colors.white,
+            hintText: text,
+          hintStyle: TextStyle(fontSize: 12),
+          suffixIcon: suffix!=null?IconButton(onPressed:suffixPressed,icon: Icon(suffix,color: Colors.grey,)):null,
+
+        ),
+      ),
+    ),
+  );
+}

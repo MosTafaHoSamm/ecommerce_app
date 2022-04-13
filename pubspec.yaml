@@ -48,6 +48,13 @@ dependencies:
   conditional_builder_null_safety: ^0.0.6
   fluttertoast: ^8.0.9
   cached_network_image: ^3.2.0
+  wave: ^0.2.0
+  image_picker: ^0.8.4+11
+  firebase_core: ^1.14.0
+  firebase_auth: ^3.3.13
+  cloud_firestore: ^3.1.11
+
+
 
 
 
