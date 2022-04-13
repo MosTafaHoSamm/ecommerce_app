@@ -1,3 +1,7 @@
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
+import 'package:ecommerceapplication/auth/signup/signup_screen.dart';
+import 'package:ecommerceapplication/screens/bottom_bar.dart';
+import 'package:ecommerceapplication/shared/network/local/cache.dart';
 import 'package:ecommerceapplication/shared/themes/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,6 +15,8 @@ import 'cubit/login_cubit.dart';
 
 class LoginScreen extends StatelessWidget {
   static String routeName = "/LoginScreen";
+  TextEditingController _passwordController=TextEditingController();
+  TextEditingController _emailController=TextEditingController();
   LoginScreen({Key? key}) : super(key: key);
   var formKey = GlobalKey<FormState>();
   bool isSecure = true;
@@ -23,7 +29,14 @@ class LoginScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => LoginCubit(),
       child: BlocConsumer<LoginCubit, LoginStates>(
-          listener: (context, state) => {},
+          listener: (context, state) => {
+            if(state is LoginSuccessState)
+              {
+                CacheHelper.saveString(key: 'token', value: LoginCubit.get(context).loginModel.uId!),
+                Navigator.pushNamed(context, BottomNavigationBarScreen.routeName)
+
+              }
+          },
           builder: (context, state) {
             return Scaffold(
               backgroundColor: Colors.grey.shade300,
@@ -83,7 +96,9 @@ class LoginScreen extends StatelessWidget {
                           child: Column(
                             children: [
                               defaultTextForm(
-                                    action: TextInputAction.next,
+                                  controller: _emailController,
+
+                                  action: TextInputAction.next,
                                      onEditingComplete: (){  FocusScope.of(context).requestFocus(passwordFocusNode);},
 
 
@@ -103,6 +118,7 @@ class LoginScreen extends StatelessWidget {
                                     }
                                   }),
                               defaultTextForm(
+                                controller: _passwordController,
                                 onSubmit: (value){
                                   if(formKey.currentState!.validate()){
 
@@ -150,23 +166,33 @@ class LoginScreen extends StatelessWidget {
                                   ),
                                 ),
                                 onPressed: () {
-                                  if (formKey.currentState!.validate())
+                                  if (formKey.currentState!.validate()){
                                     print('Logged In');
+                                    LoginCubit.get(context).login(_emailController.text, _passwordController.text);
+
+                                  }
                                   // Navigator.pushNamed(context, LoginScreen.routeName);
                                 },
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      "Login",
-                                      style: TextStyle(
-                                        fontSize: 20,
+                                child: ConditionalBuilder(
+                                  condition: state is! LoginLoadingState,
+                                  builder:(context)=>Row(
+                                    children: [
+                                      Text(
+                                        "Login",
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                        ),
                                       ),
-                                    ),
-                                    SizedBox(
-                                      width: 5,
-                                    ),
-                                    Icon(Icons.login_outlined)
-                                  ],
+                                      SizedBox(
+                                        width: 5,
+                                      ),
+                                      Icon(Icons.login_outlined)
+                                    ],
+                                  ) ,
+                                  fallback: (context)=>Container(
+                                      width: 20,
+                                      height: 20,
+                                      child: CircularProgressIndicator(color: Colors.white,)),
                                 )),
                             SizedBox(
                               width: 40,
@@ -276,7 +302,9 @@ class LoginScreen extends StatelessWidget {
                               "Don\'t have an account ?",
                               style: TextStyle(color: Colors.grey.shade700,fontWeight: FontWeight.w500),
                             ),
-                            TextButton(onPressed: () {}, child: Text("Signup"))
+                            TextButton(onPressed: () {
+                              Navigator.pushNamed(context, SignupScreen.routeName);
+                            }, child: Text("Signup"))
                           ],
                         )
                       ],

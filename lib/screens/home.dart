@@ -23,6 +23,7 @@ import 'inner_screen/brand_rail.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key}) : super(key: key);
+  static String routeName='/HomeScreen';
   var controller = PageController();
   int _current = 0;
   final CarouselController _controller = CarouselController();

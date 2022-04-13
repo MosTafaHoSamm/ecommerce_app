@@ -1,3 +1,6 @@
+import 'package:ecommerceapplication/auth/login_screen.dart';
+import 'package:ecommerceapplication/auth/signup/signup_cubit.dart';
+import 'package:ecommerceapplication/auth/signup/signup_states.dart';
 import 'package:ecommerceapplication/screens/Cart.dart';
 import 'package:ecommerceapplication/screens/wishlist.dart';
 import 'package:ecommerceapplication/shared/themes/icons.dart';
@@ -210,12 +213,20 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                             onChanged: (value) {
                               cubit.changeMode();
                             }),
-                        listTile(context, 'SignOut', '', icons, 5,
-                            onPressed: () {
-                          Navigator.canPop(context)
-                              ? Navigator.pop(context)
-                              : null;
-                        }),
+                        BlocConsumer<SignupCubit,SignupStates>(
+                          listener:(context,state)=>{} ,
+                          builder: (context,state)=>listTile(context, 'SignOut', '', icons, 5,
+                              onPressed: () {
+                            // Navigator.canPop(context)
+                            //     ? Navigator.pop(context)
+                            //     : null;
+                                SignupCubit.get(context).logOut();
+                                Navigator.pushNamed(context, LoginScreen.routeName);
+
+
+
+                              }),
+                        ),
                         SizedBox(
                           height: 60,
                         ),

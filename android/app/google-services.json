@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "28239967936",
+    "project_id": "yassen-souq",
+    "storage_bucket": "yassen-souq.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:28239967936:android:9f932d594873b19426df25",
+        "android_client_info": {
+          "package_name": "com.mostafa.ecommerceapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "28239967936-tgqnk8r20ign4665g4lebgdva4a2j784.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mostafa.ecommerceapplication",
+            "certificate_hash": "011b2bbe9dcd63cd6597524a2cf98452c3cb71de"
+          }
+        },
+        {
+          "client_id": "28239967936-b5q0toqf01em6pmjcjj5mi0ne513kgnf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD7fq3VT_1rTmMDPOBDkDnuKA5Pldkk9Hw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "28239967936-b5q0toqf01em6pmjcjj5mi0ne513kgnf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -4,6 +4,7 @@ import 'package:ecommerceapplication/screens/Cart.dart';
 import 'package:ecommerceapplication/screens/bottom_bar.dart';
 import 'package:ecommerceapplication/screens/feeds.dart';
 import 'package:ecommerceapplication/screens/feeds_dialog.dart';
+import 'package:ecommerceapplication/screens/home.dart';
 import 'package:ecommerceapplication/screens/inner_screen/brand_rail.dart';
 import 'package:ecommerceapplication/screens/inner_screen/catrgory_screen.dart';
 import 'package:ecommerceapplication/screens/landing_screen.dart';
@@ -23,23 +24,36 @@ import 'package:ecommerceapplication/shared/network/local/cache.dart';
 import 'package:ecommerceapplication/shared/provider/darkProvider.dart';
 import 'package:ecommerceapplication/shared/provider/layout_provider.dart';
 import 'package:ecommerceapplication/shared/themes/dark_theme.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
+import 'auth/signup/signup_cubit.dart';
 import 'auth/signup/signup_screen.dart';
 
 void main() async{
 
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  Widget widget;
 
   await CacheHelper.init();
+  token=await CacheHelper.getSavedData(key: 'token');
+  if(token!=null){
+    widget=BottomNavigationBarScreen();
+    print('token = $token');
+  }
+  else widget=LoginScreen();
   bool? isDark=CacheHelper.getSavedData(key: 'isDark');
   print(isDark);
   BlocOverrides.runZoned(
         () {
-      runApp( MyApp(isDark: isDark,));
+      runApp( MyApp(isDark: isDark,
+
+      starWidget:widget ,));
 
     },
     blocObserver: SimpleBlocObserver(),
@@ -49,7 +63,12 @@ void main() async{
 
 class MyApp extends StatelessWidget {
   final isDark;
-  const MyApp({Key? key, this.isDark,}) : super(key: key);
+  final starWidget;
+
+  const MyApp({Key? key, this.isDark,
+    this.starWidget
+
+  }) : super(key: key);
 
   // This widget is the root of your application.
   @override
@@ -80,6 +99,8 @@ class MyApp extends StatelessWidget {
 
             return WishListCubit()..getWishListItems();
           },),
+          BlocProvider(
+          create: (context) => SignupCubit(),)
       ],
       child: BlocConsumer<DarkCubit,DarkStates>(
         listener: (context,state){},
@@ -93,6 +114,7 @@ class MyApp extends StatelessWidget {
               "/productScreen":(context)=>ProductsDetails(),
               "/wishlistScreen":(context)=>  WishListScreen(),
               "/cartScreen":(context)=>  CartScreen(),
+              '/HomeScreen':(context)=>  HomeScreen(),
               "/LoginScreen":(context)=>  LoginScreen(),
               SignupScreen.routeName:(context)=>  SignupScreen(),
               BottomNavigationBarScreen.routeName:(context)=>  BottomNavigationBarScreen(),
@@ -101,7 +123,7 @@ class MyApp extends StatelessWidget {
             },
             title: 'أسواق ياسين',
             theme: DarkTheme.themeData(context: context, isDark:cubit.isDark  ),
-            home: LandingScreen(),
+            home: starWidget ,
 
 
             debugShowCheckedModeBanner: false,
