@@ -1,16 +1,21 @@
+import 'package:ecommerceapplication/auth/signup/signup_cubit.dart';
 import 'package:ecommerceapplication/screens/Cart.dart';
 import 'package:ecommerceapplication/screens/feeds.dart';
 import 'package:ecommerceapplication/screens/inner_screen/brand_rail.dart';
+import 'package:ecommerceapplication/screens/wishlist.dart';
+import 'package:ecommerceapplication/shared/components/constatnts.dart';
 import 'package:ecommerceapplication/shared/themes/colors.dart';
 import 'package:ecommerceapplication/shared/themes/icons.dart';
 import 'package:flutter/material.dart';
+
+import '../add_product.dart';
 
 class BackLayerScreen extends StatelessWidget {
   const BackLayerScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
+    return uId!=null?Stack(
       children: [
         Container(
           decoration: BoxDecoration(
@@ -105,7 +110,7 @@ class BackLayerScreen extends StatelessWidget {
                           image: DecorationImage(
                               fit: BoxFit.fill,
                               image: NetworkImage(
-                                  "https://cdn.vectorstock.com/i/1000x1000/44/42/person-gray-photo-placeholder-man-vector-25134442.webp"))),
+                                  SignupCubit.get(context).model!=null? SignupCubit.get(context).model.image!:'https://firebasestorage.googleapis.com/v0/b/yassen-souq.appspot.com/o/users%2Fimage_picker1604009454.jpg?alt=media&token=1b4c7649-110f-442b-b0a6-4ae7b7004c42') )),
                     ),
                   ),
                 ),
@@ -125,15 +130,17 @@ class BackLayerScreen extends StatelessWidget {
                 content(
                     text: "WishList",
                     context: context,
-                    widget: FeedsScreen(),
+                    widget: WishListScreen(
+
+                    ),
                     index: 3),
                 SizedBox(height: 20,),
 
-                content(
+                (adminTkens.contains(uId))? content(
                     text: "Upload Product",
                     context: context,
-                    widget: FeedsScreen(),
-                    index: 2),
+                    widget: AddProductScreen(),
+                    index: 2):Container(),
                 SizedBox(height: 100,),
 
 
@@ -143,6 +150,12 @@ class BackLayerScreen extends StatelessWidget {
           ),
         ),
       ],
+    ):Scaffold(
+      body: Center(
+        child:Card(
+          child: Text(' Register to use All Features 😊'),
+        ),
+      ),
     );
   }
 }

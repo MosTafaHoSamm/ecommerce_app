@@ -1,6 +1,7 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:ecommerceapplication/models/wishlist_model.dart';
 import 'package:ecommerceapplication/shared/components/components.dart';
+import 'package:ecommerceapplication/shared/components/constatnts.dart';
 import 'package:ecommerceapplication/shared/cubit/home_cubit.dart';
 import 'package:ecommerceapplication/shared/cubit/home_states.dart';
 import 'package:ecommerceapplication/shared/cubit/wishlist_cubit/wishlist_cubit.dart';
@@ -14,23 +15,29 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../shared/cubit/dark_cubit/dark_cubit.dart';
 import '../shared/cubit/dark_cubit/dark_states.dart';
+import '../shared/cubit/wishlist_cubit/wishlist_states.dart';
 
 class FullWishlist extends StatelessWidget {
   const FullWishlist({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<DarkCubit, DarkStates>(
-      listener: (context, state) {},
+    return BlocConsumer<WishListCubit, WishListStateS>(
+      listener: (context, state) {
+        if(state is GetWishListItemLoadingState)
+          {}
+      },
       builder: (context, state) {
-        var cubit = DarkCubit.get(context);
-        var cubitWishList = WishListCubit.get(context);
+         var cubitWishList = WishListCubit.get(context);
         return Scaffold(
             appBar: AppBar(
               title: Row(
                 children: [
                   Text("WishList ("),
-                  Text("${cubitWishList.getWishListItems().length}",style: TextStyle(color:Colors.red),),
+                  Text(
+                    "${cubitWishList.wishlistItems.length}",
+                    style: TextStyle(color: Colors.red),
+                  ),
                   Text(")"),
                 ],
               ),
@@ -39,16 +46,18 @@ class FullWishlist extends StatelessWidget {
                   onPressed: () {
                     showAlertDialog(
                         context: context,
-                        ok: (){
-                          cubitWishList.emptyWishList();
-                          Navigator.pop(context);},
-                        cancel: (){
+                        ok: () {
+                          cubitWishList.clear(uId) ;
                           Navigator.pop(context);
-                        }, title: "Delete WishList", subtitle: 'You will Empty WishList ?');
+                        },
+                        cancel: () {
+                          Navigator.pop(context);
+                        },
+                        title: "Delete WishList",
+                        subtitle: 'You will Empty WishList ?');
                   },
                   icon: Icon(MyIcon.trash),
                 ),
-
               ],
             ),
             body: ConditionalBuilder(
@@ -56,10 +65,14 @@ class FullWishlist extends StatelessWidget {
               builder: (context) {
                 return ListView.separated(
                     physics: BouncingScrollPhysics(),
-                    itemBuilder: (context, index) => wishItem(
-                        context,
-                        cubitWishList.wishlistItems.values.toList()[index],
-                        index),
+                    itemBuilder: (context, index) {
+                      print('Wish list length:: ${WishListCubit.get(context).wishlistItems.length}');
+
+                      return wishItem(
+                          context,
+                          WishListCubit.get(context).wishlistItems.values.toList()[index],
+                          index);
+                    },
                     separatorBuilder: (context, index) => Container(),
                     itemCount: cubitWishList.wishlistItems.length);
               },
@@ -100,7 +113,6 @@ Widget wishItem(context, WishListItemModel wishlistModel, index) {
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(10))),
                   child: Image.network(
-
                     wishlistModel.imageUrl,
                     height: 100,
                     width: 100,
@@ -140,12 +152,12 @@ Widget wishItem(context, WishListItemModel wishlistModel, index) {
           ),
         ),
       ),
-      positionedRemove(context,wishlistModel)
+      positionedRemove(context, wishlistModel.docId)
     ],
   );
 }
 
-Widget positionedRemove(context,wishlistModel) {
+Widget positionedRemove(context, docId) {
   var cubitWishList = WishListCubit.get(context);
 
   return Positioned(
@@ -162,13 +174,15 @@ Widget positionedRemove(context,wishlistModel) {
           onPressed: () {
             showAlertDialog(
                 context: context,
-                ok: (){
+                ok: () {
                   Navigator.pop(context);
-                  cubitWishList.removeItem(wishlistModel.id);},
-                cancel: (){
+                  cubitWishList.removeFromWishList(context,docId);
+                },
+                cancel: () {
                   Navigator.pop(context);
-                }, title: "Delete WishList", subtitle: 'You will Empty WishList ?');
-
+                },
+                title: "Delete WishList",
+                subtitle: 'You will Empty WishList ?');
           },
           child: Icon(Icons.close)),
     ),

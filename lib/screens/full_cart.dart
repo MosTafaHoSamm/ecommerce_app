@@ -1,5 +1,7 @@
 import 'package:ecommerceapplication/models/cart_model.dart';
+import 'package:ecommerceapplication/screens/home.dart';
 import 'package:ecommerceapplication/screens/product_details.dart';
+import 'package:ecommerceapplication/shared/components/constatnts.dart';
 import 'package:ecommerceapplication/shared/cubit/cart_cubit/cart_cubit.dart';
 import 'package:ecommerceapplication/shared/cubit/home_cubit.dart';
 import 'package:ecommerceapplication/shared/cubit/home_states.dart';
@@ -16,15 +18,15 @@ import '../shared/cubit/dark_cubit/dark_cubit.dart';
 import '../shared/cubit/dark_cubit/dark_states.dart';
 
 class FullCart extends StatelessWidget {
-  final Map<String, dynamic>? cartItems;
-  const FullCart({Key? key, required this.cartItems}) : super(key: key);
+  FullCart({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<CartCubit, CartStates>(
       listener: (context, state) {},
       builder: (context, state) {
-        var cubit = DarkCubit.get(context);
         var cubitCart = CartCubit.get(context);
         return Scaffold(
           appBar: AppBar(
@@ -32,7 +34,7 @@ class FullCart extends StatelessWidget {
               children: [
                 Text("cart ("),
                 Text(
-                  "${(cartItems?.length)}",
+                  "${(CartCubit.get(context).cartItems.length)}",
                   style: TextStyle(color: Colors.redAccent),
                 ),
                 Text(")"),
@@ -60,10 +62,12 @@ class FullCart extends StatelessWidget {
           body: Container(
             margin: EdgeInsets.only(bottom: 65),
             child: ListView.builder(
-                itemCount: cartItems!.values.length,
+                itemCount: CartCubit.get(context).cartItems.values.length,
                 itemBuilder: (context, index) {
                   return itemBuild(
-                      context, cartItems!.values.toList()[index], index);
+                      context,
+                      CartCubit.get(context).cartItems.values.toList()[index],
+                      index);
                 }),
           ),
           bottomSheet: checkOutElement(context, cubitCart.getTotal()),
@@ -191,7 +195,9 @@ Widget itemBuild(context, CartItemModel cartItem, index) {
                                       Navigator.pop(context);
                                     },
                                     ok: () {
-                                      cubitCart.removeItem(cartItem.id);
+                                      print(cartItem.docId);
+                                      cubitCart.removeItem(
+                                          docId: cartItem.docId);
                                       Navigator.pop(context);
                                     },
                                     title: 'DELETE Item',
@@ -272,29 +278,27 @@ Widget itemBuild(context, CartItemModel cartItem, index) {
                         Spacer(),
                         Material(
                           color: Colors.transparent,
-                           child: CircleAvatar(
-
-                               radius: 15,
-
-                               backgroundColor:Colors.transparent,
+                          child: CircleAvatar(
+                              radius: 15,
+                              backgroundColor: Colors.transparent,
                               child: IconButton(
-
                                 padding: EdgeInsets.all(0),
-
-                                   icon: Icon(
-
-                                       FontAwesomeIcons.minus,
-                                  color:Colors.red),
-                                  onPressed: cartItem.quantity > 1
-                                      ? () {
-                                          cubitCart.addNewItemToCart(
-                                              option: 'minus',
-                                              id: cartItem.id,
-                                              title: cartItem.title,
-                                              imageUrl: cartItem.imageUrl,
-                                              price: cartItem.price);
-                                        }
-                                      : () {},iconSize:15,)),
+                                icon: Icon(FontAwesomeIcons.minus,
+                                    color: Colors.red),
+                                onPressed: cartItem.quantity > 1
+                                    ? () {
+                                        cubitCart.addItemToCart(
+                                            context: context,
+                                            productId: cartItem.docId,
+                                            id: cartItem.id,
+                                            title: cartItem.title,
+                                            imageUrl: cartItem.imageUrl,
+                                            price: cartItem.price,
+                                            userId: uId!);
+                                      }
+                                    : () {},
+                                iconSize: 15,
+                              )),
                         ),
                         // another method to use minus button
                         // cubitCart.minusButton(cartItem.id);
@@ -327,17 +331,15 @@ Widget itemBuild(context, CartItemModel cartItem, index) {
                         ),
                         Material(
                           color: Colors.transparent,
-                           child: CircleAvatar(
-                             radius: 15,
-                              backgroundColor:Colors.transparent,
+                          child: CircleAvatar(
+                              radius: 15,
+                              backgroundColor: Colors.transparent,
                               child: IconButton(
-                                iconSize: 15,
+                                  iconSize: 15,
                                   padding: EdgeInsets.all(0),
-
                                   icon: Icon(FontAwesomeIcons.plus,
-                                      color:Colors.red),
-                                  onPressed:  () {
-
+                                      color: Colors.red),
+                                  onPressed: () {
                                     cubitCart.plusButton(cartItem.id);
                                     //         print(cartItem.quantity);
                                     // cubitCart.addNewItemToCart(
@@ -346,8 +348,7 @@ Widget itemBuild(context, CartItemModel cartItem, index) {
                                     //     title: cartItem.title,
                                     //     imageUrl: cartItem.imageUrl,
                                     //     price: cartItem.price);
-                                  }
-                                       )),
+                                  })),
                         ),
                         // Material(
                         //   borderRadius: BorderRadius.all(Radius.circular(40)),

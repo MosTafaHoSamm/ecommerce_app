@@ -1,9 +1,11 @@
 import 'dart:io';
 
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
+import 'package:ecommerceapplication/auth/login_screen.dart';
 import 'package:ecommerceapplication/auth/signup/signup_cubit.dart';
 import 'package:ecommerceapplication/auth/signup/signup_states.dart';
 import 'package:ecommerceapplication/screens/bottom_bar.dart';
+import 'package:ecommerceapplication/shared/components/constatnts.dart';
 import 'package:ecommerceapplication/shared/network/local/cache.dart';
 import 'package:ecommerceapplication/shared/themes/colors.dart';
 import 'package:flutter/cupertino.dart';
@@ -16,6 +18,7 @@ import 'package:wave/wave.dart';
 import '../../shared/components/components.dart';
 import '../cubit/lgin_states.dart';
 import '../cubit/login_cubit.dart';
+import '../phone_verification/phone_verification_screen.dart';
 
 class SignupScreen extends StatelessWidget {
   static String routeName = "/SignupScreen";
@@ -42,9 +45,16 @@ class SignupScreen extends StatelessWidget {
               if (state is RegisterSuccessState)
                 {
                   CacheHelper.saveString(
-                      key: 'token',
-                      value: SignupCubit.get(context).userModel .uId!),
-                  Navigator.pushNamed(context, BottomNavigationBarScreen.routeName)
+                      key: 'uId',
+                      value: state.uId).then((value){
+                    uId=CacheHelper.getSavedData(key: 'uId');
+
+                    SignupCubit.get(context).getUserData();
+
+                    Navigator.pushNamed(
+                            context, BottomNavigationBarScreen.routeName);
+                  }),
+
                 }
             },
         builder: (context, state) {
@@ -104,7 +114,8 @@ class SignupScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Positioned(
+
+                           Positioned(
                             top: 100,
                             left: 100,
                             child: Container(
@@ -158,7 +169,10 @@ class SignupScreen extends StatelessWidget {
                                                   onTap:
                                                       // SignupCubit.get(context).getImageGallery
                                                       () {
-                                                    cubit.getImageGallery();
+                                                    cubit.getImageGallery().then((value) {
+                                                      cubit.uploadPhoto();
+
+                                                    });
                                                     Navigator.pop(context);
                                                   },
                                                   splashColor: Colors.purple,
@@ -375,20 +389,16 @@ class SignupScreen extends StatelessWidget {
                               ),
                               onPressed: () {
                                 if (formKey.currentState!.validate()) {
-
                                   SignupCubit.get(context).register(
                                       email: _emailController.text,
                                       password: _passwordController.text,
                                       name: _nameController.text,
-                                       phone: _phoneController.text);
-
-
-
+                                      phone: _phoneController.text);
                                 }
-                               },
+                              },
                               child: ConditionalBuilder(
-                                condition:   state is! RegisterLoadingState||state is!SignUpLoadingState,
-                                builder: (context)=>Row(
+                                condition: state is! RegisterLoadingState ,
+                                 builder: (context) => Row(
                                   children: [
                                     Text(
                                       "SignUp",
@@ -402,11 +412,14 @@ class SignupScreen extends StatelessWidget {
                                     Icon(Icons.login_rounded)
                                   ],
                                 ),
-                                fallback:(context)=>Center(
-                                  child:Container(
+                                fallback: (context) => Center(
+                                  child: Container(
                                       width: 20,
                                       height: 20,
-                                      child: CircularProgressIndicator(color: Colors.white,)) ,) ,
+                                      child: CircularProgressIndicator(
+                                        color: Colors.white,
+                                      )),
+                                ),
                               )),
                           SizedBox(
                             width: 40,
@@ -470,7 +483,7 @@ class SignupScreen extends StatelessWidget {
                                   children: [
                                     Icon(
                                       FontAwesomeIcons.googlePlusG,
-                                      size: 18,
+                                      size: 13,
                                       color: Colors.deepOrange,
                                     ),
                                     SizedBox(
@@ -480,7 +493,7 @@ class SignupScreen extends StatelessWidget {
                                       "Google",
                                       style: TextStyle(
                                           color: Colors.deepOrange,
-                                          fontSize: 16),
+                                          fontSize: 13),
                                     ),
                                   ],
                                 )
@@ -509,7 +522,36 @@ class SignupScreen extends StatelessWidget {
                                 Text(
                                   " facebook",
                                   style: TextStyle(
-                                      color: Colors.indigoAccent, fontSize: 16),
+                                      color: Colors.indigoAccent, fontSize: 13),
+                                )
+                              ],
+                            ),
+                          ),
+                          SizedBox(width: 10),
+                          OutlineButton(
+                            onPressed: () {
+                              Navigator.pushNamed(
+                                  context, PhoneScreen.routeName);
+                            },
+                            shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20)),
+                            ),
+                            color: Colors.green.shade500,
+                            highlightedBorderColor: Colors.indigo.shade200,
+                            borderSide: BorderSide(
+                                color: Colors.green.shade500, width: 2),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.phone,
+                                  color: Colors.green.shade500,
+                                ),
+                                Text(
+                                  " mobile",
+                                  style: TextStyle(
+                                      color: Colors.green.shade500,
+                                      fontSize: 13),
                                 )
                               ],
                             ),
@@ -525,7 +567,10 @@ class SignupScreen extends StatelessWidget {
                                 color: Colors.grey.shade700,
                                 fontWeight: FontWeight.w500),
                           ),
-                          TextButton(onPressed: () {}, child: Text("login"))
+                          TextButton(onPressed: () {
+                            Navigator.pushNamed(
+                                    context, LoginScreen.routeName);
+                          }, child: Text("login".toUpperCase()))
                         ],
                       )
                     ],

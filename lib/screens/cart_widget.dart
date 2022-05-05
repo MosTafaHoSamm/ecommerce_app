@@ -10,33 +10,37 @@ class CartItem extends StatelessWidget {
   final int index;
  static List<Map<String, dynamic>> cartItem = [
     {
-      'name': 'موبايلات',
-      'image': 'assets/images/iphone.jpg',
+      'name': 'المطبخ',
+      'image': 'assets/images/kitchen.jpg',
     },
     {
-      'name': 'الصحة والجمال',
-      'image': 'assets/images/CatBeauty.jpg',
+      'name': 'أدوات الشرب',
+      'image': 'assets/images/toolsDrink.jpg',
     },
     {
-      'name': 'الملابس',
-      'image': 'assets/images/CatClothes.jpg',
+      'name': 'الإضاءة',
+      'image': 'assets/images/lights.jpg',
     },
     {
       'name': 'الأثاث',
-      'image': 'assets/images/CatFurniture.jpg',
+      'image': 'assets/images/furniture.png',
     },
     {
-      'name': 'إلكترونيات',
-      'image': 'assets/images/CatLaptops.png',
+      'name': 'الإحتفالات',
+      'image': 'assets/images/festivals.jpg',
     },
 
     {
-      'name': 'ساعات',
-      'image': 'assets/images/CatWatches.jpg',
+      'name': 'أدوات التنظيف',
+      'image': 'assets/images/clean.jpg',
     },
     {
-      'name': 'طعام',
-      'image': 'assets/images/food.jpg',
+      'name': 'أدوات صحية',
+      'image': 'assets/images/bath.jpg',
+    },
+   {
+      'name': 'ديكور',
+      'image': 'assets/images/decor.jpg',
     },
   ];
   List<CartModel> model = [

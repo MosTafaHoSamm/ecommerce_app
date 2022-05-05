@@ -1,10 +1,13 @@
 
 import 'package:badges/badges.dart';
+import 'package:ecommerceapplication/auth/signup/signup_cubit.dart';
 import 'package:ecommerceapplication/screens/Cart.dart';
 import 'package:ecommerceapplication/screens/user_info.dart';
 import 'package:ecommerceapplication/screens/wishlist.dart';
+import 'package:ecommerceapplication/shared/components/constatnts.dart';
 import 'package:ecommerceapplication/shared/cubit/cart_cubit/cart_cubit.dart';
 import 'package:ecommerceapplication/shared/cubit/cart_cubit/cart_states.dart';
+import 'package:ecommerceapplication/shared/cubit/home_cubit.dart';
 import 'package:ecommerceapplication/shared/cubit/wishlist_cubit/wishlist_cubit.dart';
 import 'package:ecommerceapplication/shared/cubit/wishlist_cubit/wishlist_states.dart';
 import 'package:flutter/material.dart';
@@ -69,11 +72,11 @@ class SearchByHeader extends SliverPersistentHeaderDelegate {
               children: [
                 BlocConsumer<WishListCubit,WishListStateS>(
                   listener: (context,state){},
-                  builder: (context, state) => Badge(
+                  builder: (context, state) => uId!=null?Badge(
                     badgeColor: ColorsConsts.favBadgeColor,
                     position: BadgePosition.topEnd(top: 5, end: 7),
                     badgeContent: Text(
-                      WishListCubit.get(context).getWishListItems().length.toString(),
+                      WishListCubit.get(context).wishlistItems.length.toString(),
                       style: TextStyle(color: ColorsConsts.white),
                     ),
                     child: IconButton(
@@ -83,15 +86,15 @@ class SearchByHeader extends SliverPersistentHeaderDelegate {
                             .pushNamed(WishListScreen().routeName);
                       },
                     ),
-                  ),
+                  ):Container(),
                 ),
                 BlocConsumer<CartCubit,CartStates>(
                   listener: (context,state){},
-                  builder: (context,state) => Badge(
+                  builder: (context,state) => uId!=null?Badge(
                     badgeColor: ColorsConsts.cartBadgeColor,
                     position: BadgePosition.topEnd(top: 5, end: 7),
                     badgeContent: Text(
-                      CartCubit.get(context).getCartItems().length.toString(),
+                      CartCubit.get(context).cartItems.length.toString(),
                       style: TextStyle(color: ColorsConsts.white),
                     ),
                     child: IconButton(
@@ -103,7 +106,7 @@ class SearchByHeader extends SliverPersistentHeaderDelegate {
                         Navigator.of(context).pushNamed(CartScreen.routeName);
                       },
                     ),
-                  ),
+                  ):Container(),
                 ),
               ],
             ),
@@ -123,7 +126,7 @@ class SearchByHeader extends SliverPersistentHeaderDelegate {
                     builder: (context) => UserInfoScreen(),
                   ),
                 ),
-                child: Container(
+                child: uId!=null?Container(
                   height: 40,
                   width: 40,
                   clipBehavior: Clip.antiAlias,
@@ -131,11 +134,11 @@ class SearchByHeader extends SliverPersistentHeaderDelegate {
                       borderRadius: BorderRadius.circular(10.0),
                       image: DecorationImage(
                         image: NetworkImage(
-                          'https://cdn1.vectorstock.com/i/thumb-large/62/60/default-avatar-photo-placeholder-profile-image-vector-21666260.jpg',
-                        ),
+    SignupCubit.get(context).model!=null? SignupCubit.get(context).model.image!:'https://firebasestorage.googleapis.com/v0/b/yassen-souq.appspot.com/o/users%2Fimage_picker1604009454.jpg?alt=media&token=1b4c7649-110f-442b-b0a6-4ae7b7004c42',
+    ),
                         fit: BoxFit.cover,
                       )),
-                ),
+                ):Container(),
               ),
             ),
           ),

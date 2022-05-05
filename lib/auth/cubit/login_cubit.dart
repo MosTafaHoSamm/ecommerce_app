@@ -19,17 +19,17 @@ class LoginCubit extends Cubit<LoginStates>{
 
   }
   late LoginModel loginModel;
-  login(
+  Future login(
       String email,
       String password,
-      ){
+      )async{
     emit(LoginLoadingState());
 
-    FirebaseAuth.instance.signInWithEmailAndPassword(
+   await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email, password: password)
         .then((value) {
       loginModel=LoginModel(value.user?.email, value.user?.uid);
-          emit(LoginSuccessState());
+          emit(LoginSuccessState(value.user!.uid));
 
     })
         .catchError((error){

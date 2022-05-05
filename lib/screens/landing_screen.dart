@@ -1,12 +1,14 @@
 import 'package:ecommerceapplication/auth/login_screen.dart';
 import 'package:ecommerceapplication/auth/signup/signup_screen.dart';
 import 'package:ecommerceapplication/screens/bottom_bar.dart';
+import 'package:ecommerceapplication/shared/components/constatnts.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class LandingScreen extends StatefulWidget {
+  static String routeName='/LandingScreen';
   const LandingScreen({Key? key}) : super(key: key);
 
   @override
@@ -18,7 +20,7 @@ class _LandingScreenState extends State<LandingScreen> with TickerProviderStateM
   late Animation _animation;
   List<String>images=[
     'https://img.freepik.com/free-photo/shocked-two-women-friends-holding-shopping-bags-using-mobile-phone_171337-5718.jpg?t=st=1649062945~exp=1649063545~hmac=7b74447af1bb14dc46884d676298d55690bd23b22f1cb16ae2c8305c7eedbd7c&w=740',
-    'https://media.istockphoto.com/photos/man-at-the-shopping-picture-id868718238?k=6&m=868718238&s=612x612&w=0&h=ZUPCx8Us3fGhnSOlecWIZ68y3H4rCiTnANtnjHk0bvo=',
+    'https://media.istockphoto.com/photos/supermarket-shopping-cart-surrounding-by-giftbox-with-credit-card-on-picture-id1178981230',
     'https://e-shopy.org/wp-content/uploads/2020/08/shop.jpeg',
     'https://img.freepik.com/free-photo/e-commerce-sales-online-shopping-annual-discount-digital-marketingr-all-live-futuristic-atmosphere-3d-render_172660-10.jpg?w=826'
   ];
@@ -264,6 +266,7 @@ class _LandingScreenState extends State<LandingScreen> with TickerProviderStateM
               ),
               OutlinedButton(
                 onPressed: () {
+                  uId=null;
                   Navigator.pushNamed(context, BottomNavigationBarScreen.routeName);
                 },
                 style: ButtonStyle(

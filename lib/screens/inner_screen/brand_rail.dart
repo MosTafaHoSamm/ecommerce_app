@@ -1,9 +1,12 @@
+import 'package:ecommerceapplication/auth/signup/signup_cubit.dart';
 import 'package:ecommerceapplication/screens/cart_widget.dart';
 import 'package:ecommerceapplication/screens/product_details.dart';
 import 'package:ecommerceapplication/shared/cubit/home_cubit.dart';
 import 'package:flutter/material.dart';
 
+import '../../auth/signup/signup_screen.dart';
 import '../../models/product_model.dart';
+import '../../shared/components/constatnts.dart';
 
 class BrandRailScreen extends StatefulWidget {
   BrandRailScreen({Key? key}) : super(key: key);
@@ -31,42 +34,42 @@ class _BrandRailScreenState extends State<BrandRailScreen> {
     // print(routeArgs.toString());
     if (_selectedIndex == 0) {
       setState(() {
-        brand =  'Adidas';
+        brand =  'ايكيا';
       });
     }
     if (_selectedIndex == 1) {
       setState(() {
-        brand = 'Apple';
+        brand = 'لازورد';
       });
     }
     if (_selectedIndex == 2) {
       setState(() {
-        brand = 'DELL';
+        brand = 'بيريكس';
       });
     }
     if (_selectedIndex == 3) {
       setState(() {
-        brand = 'H&M';
+        brand = 'تيفال';
       });
     }
     if (_selectedIndex == 4) {
       setState(() {
-        brand = 'Nike';
+        brand = 'توشيبا';
       });
     }
     if (_selectedIndex == 5) {
       setState(() {
-        brand = 'Samsung';
+        brand = 'تروفال';
       });
     }
     if (_selectedIndex == 6) {
       setState(() {
-        brand = 'Huawei';
+        brand = 'طبروير';
       });
     }
     if (_selectedIndex == 7) {
       setState(() {
-        brand = 'All';
+        brand = 'أخرى';
       });
     }
     super.didChangeDependencies();
@@ -74,7 +77,7 @@ class _BrandRailScreenState extends State<BrandRailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return uId!=null?Scaffold(
       body: Row(
         children: [
           LayoutBuilder(
@@ -91,42 +94,42 @@ class _BrandRailScreenState extends State<BrandRailScreen> {
                         _selectedIndex = index;
                         if (_selectedIndex == 0) {
                           setState(() {
-                            brand = 'Adidas';
+                            brand = 'ايكيا';
                           });
                         }
                         if (_selectedIndex == 1) {
                           setState(() {
-                            brand = 'Apple';
+                            brand = 'لازورد';
                           });
                         }
                         if (_selectedIndex == 2) {
                           setState(() {
-                            brand = 'DELL';
+                            brand = 'بيريكس';
                           });
                         }
                         if (_selectedIndex == 3) {
                           setState(() {
-                            brand = 'H&M';
+                            brand = 'تيفال';
                           });
                         }
                         if (_selectedIndex == 4) {
                           setState(() {
-                            brand = 'Nike';
+                            brand = 'توشيبا';
                           });
                         }
                         if (_selectedIndex == 5) {
                           setState(() {
-                            brand = 'Samsung';
+                            brand = 'تروفال';
                           });
                         }
                         if (_selectedIndex == 6) {
                           setState(() {
-                            brand = 'Huawei';
+                            brand = 'طبروير';
                           });
                         }
                         if (_selectedIndex == 7) {
                           setState(() {
-                            brand = 'All';
+                            brand = 'أخرى';
                           });
                         }
                         // print(brand);
@@ -145,8 +148,7 @@ class _BrandRailScreenState extends State<BrandRailScreen> {
                           child: CircleAvatar(
                             radius: 20,
                             backgroundImage: NetworkImage(
-                                "https://img.freepik.com/free-photo/cute-little-girl-village-vacation-summer-day_100800-16685.jpg?w=1060"),
-                          ),
+                          '${SignupCubit.get(context).model.image}'  )                          ),
                         ),
                         SizedBox(
                           height: 80,
@@ -167,21 +169,21 @@ class _BrandRailScreenState extends State<BrandRailScreen> {
                     selectedIndex: _selectedIndex,
                     destinations: [
                       buildRotatedTextNavigationRailDestination(
-                          text: 'Adidas', padding: padding),
+                          text: 'ايكيا', padding: padding),
                       buildRotatedTextNavigationRailDestination(
-                          text: 'Apple', padding: padding),
+                          text: 'لازورد', padding: padding),
                       buildRotatedTextNavigationRailDestination(
-                          text: 'DELL', padding: padding),
+                          text: 'بيريكس', padding: padding),
                       buildRotatedTextNavigationRailDestination(
-                          text: 'H&M', padding: padding),
+                          text: 'تيفال', padding: padding),
                       buildRotatedTextNavigationRailDestination(
-                          text: 'Nike', padding: padding),
+                          text: 'توشيبا', padding: padding),
                       buildRotatedTextNavigationRailDestination(
-                          text: 'Samsung', padding: padding),
+                          text: 'تروفال', padding: padding),
                       buildRotatedTextNavigationRailDestination(
-                          text: 'Huawei', padding: padding),
+                          text: 'طبروير', padding: padding),
                       buildRotatedTextNavigationRailDestination(
-                          text: 'All', padding: padding),
+                          text: 'أخرى', padding: padding),
                     ],
                   )),
                 ),
@@ -190,6 +192,32 @@ class _BrandRailScreenState extends State<BrandRailScreen> {
           ),
           ContentSpace(context, brand!)
         ],
+      ),
+    ):Scaffold(
+      body: Center(
+        child: Card(
+          child :Container(
+            width: double.infinity,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Text('Register to use All Features 😊'),
+                SizedBox(height: 15,),
+                OutlinedButton(autofocus: false,
+
+                    style: ButtonStyle(
+
+                        shape: MaterialStateProperty.all<OutlinedBorder> (RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(20),
+                            )))),
+                    onPressed: (){
+                      Navigator.pushNamed(context, SignupScreen.routeName);
+                    }, child: Text('Register Now' ))
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -265,13 +293,13 @@ NavigationRailDestination buildRotatedTextNavigationRailDestination({
 //                       ),
 //                       destinations: [
 //                         buildRotatedTextRailDestination('Addidas', padding),
-//                         buildRotatedTextRailDestination("Apple", padding),
+//                         buildRotatedTextRailDestination("لازورد", padding),
 //                         buildRotatedTextRailDestination("Dell", padding),
-//                         buildRotatedTextRailDestination("H&M", padding),
-//                         buildRotatedTextRailDestination("Nike", padding),
-//                         buildRotatedTextRailDestination("Samsung", padding),
-//                         buildRotatedTextRailDestination("Huawei", padding),
-//                         buildRotatedTextRailDestination("All", padding),
+//                         buildRotatedTextRailDestination("تيفال", padding),
+//                         buildRotatedTextRailDestination("توشيبا", padding),
+//                         buildRotatedTextRailDestination("تروفال", padding),
+//                         buildRotatedTextRailDestination("طبروير", padding),
+//                         buildRotatedTextRailDestination("أخرى", padding),
 //                       ],
 //                     ),
 //                   ),
@@ -315,7 +343,7 @@ class ContentSpace extends StatelessWidget {
     // print(cubit.getBrand(brand)[0].description);
         var model=cubit.getBrand(brand);
         var products=cubit.products;
-        if(brand=='All')
+        if(brand=='أخرى')
           {
             for(int i =0;i<products.length;i++)
               {
