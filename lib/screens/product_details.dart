@@ -7,18 +7,23 @@ import 'package:ecommerceapplication/shared/cubit/cart_cubit/cart_states.dart';
 import 'package:ecommerceapplication/shared/cubit/home_cubit.dart';
 import 'package:ecommerceapplication/shared/cubit/wishlist_cubit/wishlist_cubit.dart';
 import 'package:ecommerceapplication/shared/cubit/wishlist_cubit/wishlist_states.dart';
+import 'package:whatsapp_unilink/whatsapp_unilink.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 import 'package:ecommerceapplication/shared/themes/icons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../shared/components/constatnts.dart';
 import '../shared/cubit/dark_cubit/dark_cubit.dart';
 import 'Cart.dart';
 import 'feeds.dart';
 
 class ProductsDetails extends StatelessWidget {
   static const String routeName = '/productScreen';
+
   ProductsDetails({
     Key? key,
     // required this.id,
@@ -47,7 +52,7 @@ class ProductsDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final String routeArgs =
-    ModalRoute.of(context)?.settings.arguments as String;
+        ModalRoute.of(context)?.settings.arguments as String;
     print(routeArgs);
 
     var cubit = DarkCubit.get(context);
@@ -65,9 +70,11 @@ class ProductsDetails extends StatelessWidget {
             centerTitle: true,
             title: Text("Detail".toUpperCase()),
             actions: [
-              wishListListener(widget: WishListScreen(),context:   context),
-              cartListener(context: context,widget: CartScreen()),
-              SizedBox(width: 10,),
+              uId!=null?wishListListener(widget: WishListScreen(), context: context):Container(),
+              uId!=null? cartListener(context: context, widget: CartScreen()):Container(),
+              SizedBox(
+                width: 10,
+              ),
             ],
           ),
           body: Stack(
@@ -163,7 +170,7 @@ class ProductsDetails extends StatelessWidget {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(20)),
                         color:
-                        cubit.isDark ? Colors.grey.shade900 : Colors.white,
+                            cubit.isDark ? Colors.grey.shade900 : Colors.white,
                       ),
                       width: double.infinity,
                       child: Column(
@@ -223,10 +230,10 @@ class ProductsDetails extends StatelessWidget {
                             child: ListView.builder(
                                 scrollDirection: Axis.horizontal,
                                 itemBuilder: (context, index) {
-                                  return productItem(context,
-                                      cubitH.getProducts()[index], index);
+                                  return productItem(
+                                      context, cubitH.products[index], index);
                                 },
-                                itemCount: cubitH.getProducts().length),
+                                itemCount: cubitH.products.length),
                           ),
                           Container(
                             width: double.infinity,
@@ -241,7 +248,7 @@ class ProductsDetails extends StatelessWidget {
               ),
               Align(
                 alignment: Alignment.bottomCenter,
-                child: Row(
+                child: uId!=null?Row(
                   children: [
                     Expanded(
                       flex: 3,
@@ -249,17 +256,23 @@ class ProductsDetails extends StatelessWidget {
                         height: 40,
                         color: Colors.red.shade900,
                         child: OutlinedButton(
-                          onPressed: cubitCart.cartItems.containsKey(model.id)
-                              ? () {}
+                          onPressed: cubitCart.cartItems.containsKey(model.docId)
+                              ? () {
+                            print('DocId :${CartCubit.get(context).model.docId} ');
+                            print('Check : ${cubitCart.cartItems.containsKey(CartCubit.get(context).model.docId)}');
+                          }
                               : () {
-                            cubitCart.addNewItemToCart(
-                                id: model.id,
-                                title: model.title,
-                                imageUrl: model.imageUrl,
-                                price: model.price);
-                          },
+                                  cubitCart.addItemToCart(
+                                      context: context,
+                                    productId: model.docId,
+                                      id: model.id,
+                                      title: model.title,
+                                      imageUrl: model.imageUrl,
+                                      price: model.price,
+                                  userId: uId!);
+                                },
                           child: Text(
-                            cubitCart.cartItems.containsKey(model.id)
+                            cubitCart.cartItems.containsKey(model.docId)
                                 ? "IN CART"
                                 : "Add to Cart".toUpperCase(),
                             textAlign: TextAlign.center,
@@ -274,7 +287,11 @@ class ProductsDetails extends StatelessWidget {
                         height: 40,
                         color: Colors.white,
                         child: OutlinedButton(
-                          onPressed: () {},
+                          onPressed: () {
+// ...somewhere in your Flutter app...
+                            launchWhatsApp(model);
+
+                          },
                           child: Row(
                             children: [
                               Text(
@@ -286,11 +303,9 @@ class ProductsDetails extends StatelessWidget {
                               SizedBox(
                                 width: 5,
                               ),
-                              Icon(
-                                FontAwesomeIcons.creditCard,
-                                color: Colors.green.shade500,
-                                size: 17,
-                              )
+                              Image.asset('assets/images/whatsapp.png',
+                              height: 20,
+                              width: 20,)
                             ],
                           ),
                         ),
@@ -304,21 +319,28 @@ class ProductsDetails extends StatelessWidget {
                         child: OutlinedButton(
                           style: ButtonStyle(),
                           onPressed: () {
-                            wishListCubit.wishlistItems.containsKey(model.id)
-                                ? () {}
-                                : wishListCubit.addNewItemToWishList(
-                                id: model.id,
-                                title: model.title,
-                                imageUrl: model.imageUrl,
-                                price: model.price);
+                            // print( wishListCubit.wishlistItems.values.toList() [0].docId);
+
+                            print( model.docId );
+
+                            wishListCubit.docs.contains(model.docId)
+
+                                ? wishListCubit.removeFromWishList(
+                                    context, model.docId)
+                                : wishListCubit.addToWish(context,
+                                    productId: model.docId,
+                                    title: model.title,
+                                    price: model.price,
+                                    imageUrl: model.imageUrl,
+                                    id: model.id,
+                            docId: model.docId);
                           },
                           child: BlocConsumer<WishListCubit, WishListStateS>(
                             listener: (context, state) {},
                             builder: (context, state) {
                               return Icon(
                                 FontAwesomeIcons.solidHeart,
-                                color: wishListCubit.wishlistItems
-                                    .containsKey(model.id)
+                                color: wishListCubit.docs.contains(model.docId)
                                     ? Colors.grey
                                     : Colors.red.shade500,
                                 size: 20,
@@ -329,6 +351,34 @@ class ProductsDetails extends StatelessWidget {
                       ),
                     )
                   ],
+                ): Container(
+
+                  height: 40,
+                  color: Colors.white,
+                  child: OutlinedButton(
+                    onPressed: () {
+// ...somewhere in your Flutter app...
+                      launchWhatsApp(model);
+
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Buy Now".toUpperCase(),
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              color: Colors.black, fontSize: 14),
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Image.asset('assets/images/whatsapp.png',
+                          height: 20,
+                          width: 20,)
+                      ],
+                    ),
+                  ),
                 ),
               ),
             ],
@@ -362,7 +412,7 @@ Widget _details(context, title, sub) {
             " ${sub}",
             style: TextStyle(
               color:
-              cubit.isDark ? Theme.of(context).disabledColor : Colors.black,
+                  cubit.isDark ? Theme.of(context).disabledColor : Colors.black,
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
@@ -373,4 +423,15 @@ Widget _details(context, title, sub) {
       ],
     ),
   );
+}
+launchWhatsApp(model) async {
+  final link = WhatsAppUnilink(
+    phoneNumber: '+201024124157',
+    text: "${model.description        } هل هذا المنتج متوفر ?"
+        ,
+  );
+  // Convert the WhatsAppUnilink instance to a string.
+  // Use either Dart's string interpolation or the toString() method.
+  // The "launch" method is part of "url_launcher".
+  await launch('$link');
 }

@@ -1,6 +1,10 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
+import 'package:ecommerceapplication/auth/signup/signup_cubit.dart';
 import 'package:ecommerceapplication/auth/signup/signup_screen.dart';
 import 'package:ecommerceapplication/screens/bottom_bar.dart';
+import 'package:ecommerceapplication/shared/cubit/cart_cubit/cart_cubit.dart';
+import 'package:ecommerceapplication/shared/cubit/home_cubit.dart';
+import 'package:ecommerceapplication/shared/cubit/wishlist_cubit/wishlist_cubit.dart';
 import 'package:ecommerceapplication/shared/network/local/cache.dart';
 import 'package:ecommerceapplication/shared/themes/colors.dart';
 import 'package:flutter/material.dart';
@@ -10,19 +14,21 @@ import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
 
 import '../shared/components/components.dart';
+import '../shared/components/constatnts.dart';
 import 'cubit/lgin_states.dart';
 import 'cubit/login_cubit.dart';
 
 class LoginScreen extends StatelessWidget {
   static String routeName = "/LoginScreen";
-  TextEditingController _passwordController=TextEditingController();
-  TextEditingController _emailController=TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
+
   LoginScreen({Key? key}) : super(key: key);
   var formKey = GlobalKey<FormState>();
   bool isSecure = true;
   String _password = '';
   String _emailAddress = '';
-  FocusNode passwordFocusNode=FocusNode();
+  FocusNode passwordFocusNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -30,13 +36,23 @@ class LoginScreen extends StatelessWidget {
       create: (context) => LoginCubit(),
       child: BlocConsumer<LoginCubit, LoginStates>(
           listener: (context, state) => {
-            if(state is LoginSuccessState)
-              {
-                CacheHelper.saveString(key: 'token', value: LoginCubit.get(context).loginModel.uId!),
-                Navigator.pushNamed(context, BottomNavigationBarScreen.routeName)
-
-              }
-          },
+                if (state is LoginSuccessState)
+                  {
+                    CacheHelper.saveString(key: 'uId', value: state.uId)
+                        .then((value) {
+                      uId = CacheHelper.getSavedData(key: 'uId');
+                      SignupCubit.get(context).getUserData();
+                      WishListCubit.get(context).getWishListItems();
+                      CartCubit.get(context).getCartItems();
+                      HomeCubit.get(context).getProducts();
+                      // Navigator.pushNamed(context, BottomNavigationBarScreen.routeName);
+                      Navigator.pushAndRemoveUntil(context,
+                          MaterialPageRoute(builder: (context) {
+                        return BottomNavigationBarScreen();
+                      }), (route) => false);
+                    }),
+                  }
+              },
           builder: (context, state) {
             return Scaffold(
               backgroundColor: Colors.grey.shade300,
@@ -97,12 +113,12 @@ class LoginScreen extends StatelessWidget {
                             children: [
                               defaultTextForm(
                                   controller: _emailController,
-
                                   action: TextInputAction.next,
-                                     onEditingComplete: (){  FocusScope.of(context).requestFocus(passwordFocusNode);},
-
-
-                                   key: "email",
+                                  onEditingComplete: () {
+                                    FocusScope.of(context)
+                                        .requestFocus(passwordFocusNode);
+                                  },
+                                  key: "email",
                                   onSaved: (value) {
                                     _emailAddress = value!;
                                     print('email ${_emailAddress}');
@@ -111,19 +127,18 @@ class LoginScreen extends StatelessWidget {
                                   text: "Email Address",
                                   icon: Icons.email_outlined,
                                   validate: (value) {
-                                    if (value!.isEmpty || !value.contains('@')) {
+                                    if (value!.isEmpty ||
+                                        !value.contains('@')) {
                                       return "Enter a valid Email Address";
                                     } else {
                                       return null;
                                     }
                                   }),
                               defaultTextForm(
-                                controller: _passwordController,
-                                onSubmit: (value){
-                                  if(formKey.currentState!.validate()){
-
-                                  }
-                                },
+                                  controller: _passwordController,
+                                  onSubmit: (value) {
+                                    if (formKey.currentState!.validate()) {}
+                                  },
                                   key: "password",
                                   focusNode: passwordFocusNode,
                                   type: TextInputType.visiblePassword,
@@ -166,16 +181,18 @@ class LoginScreen extends StatelessWidget {
                                   ),
                                 ),
                                 onPressed: () {
-                                  if (formKey.currentState!.validate()){
+                                  if (formKey.currentState!.validate()) {
                                     print('Logged In');
-                                    LoginCubit.get(context).login(_emailController.text, _passwordController.text);
-
+                                    LoginCubit.get(context)
+                                        .login(_emailController.text,
+                                            _passwordController.text)
+                                        .then((value) {});
                                   }
                                   // Navigator.pushNamed(context, LoginScreen.routeName);
                                 },
                                 child: ConditionalBuilder(
                                   condition: state is! LoginLoadingState,
-                                  builder:(context)=>Row(
+                                  builder: (context) => Row(
                                     children: [
                                       Text(
                                         "Login",
@@ -188,11 +205,13 @@ class LoginScreen extends StatelessWidget {
                                       ),
                                       Icon(Icons.login_outlined)
                                     ],
-                                  ) ,
-                                  fallback: (context)=>Container(
+                                  ),
+                                  fallback: (context) => Container(
                                       width: 20,
                                       height: 20,
-                                      child: CircularProgressIndicator(color: Colors.white,)),
+                                      child: CircularProgressIndicator(
+                                        color: Colors.white,
+                                      )),
                                 )),
                             SizedBox(
                               width: 40,
@@ -207,8 +226,8 @@ class LoginScreen extends StatelessWidget {
                           children: [
                             Expanded(
                               child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 10.0),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10.0),
                                 child: Divider(
                                   thickness: 2,
                                   color: Colors.grey,
@@ -224,8 +243,8 @@ class LoginScreen extends StatelessWidget {
                             ),
                             Expanded(
                               child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 10.0),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10.0),
                                 child: Divider(
                                   thickness: 2,
                                   color: Colors.grey,
@@ -247,19 +266,27 @@ class LoginScreen extends StatelessWidget {
                                     BorderRadius.all(Radius.circular(20)),
                               ),
                               color: Colors.deepOrange,
-                              highlightedBorderColor: Colors.deepOrange.shade200,
-                              borderSide:
-                                  BorderSide(color: Colors.deepOrange, width: 2),
+                              highlightedBorderColor:
+                                  Colors.deepOrange.shade200,
+                              borderSide: BorderSide(
+                                  color: Colors.deepOrange, width: 2),
                               child: Row(
                                 children: [
                                   Row(
                                     children: [
-                                      Icon(FontAwesomeIcons.googlePlusG,size: 18,color: Colors.deepOrange,),
-                                      SizedBox(width: 10,),
+                                      Icon(
+                                        FontAwesomeIcons.googlePlusG,
+                                        size: 18,
+                                        color: Colors.deepOrange,
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
                                       Text(
                                         "Google",
                                         style: TextStyle(
-                                            color: Colors.deepOrange, fontSize: 16),
+                                            color: Colors.deepOrange,
+                                            fontSize: 16),
                                       ),
                                     ],
                                   )
@@ -288,7 +315,8 @@ class LoginScreen extends StatelessWidget {
                                   Text(
                                     " facebook",
                                     style: TextStyle(
-                                        color: Colors.indigoAccent, fontSize: 16),
+                                        color: Colors.indigoAccent,
+                                        fontSize: 16),
                                   )
                                 ],
                               ),
@@ -300,11 +328,16 @@ class LoginScreen extends StatelessWidget {
                           children: [
                             Text(
                               "Don\'t have an account ?",
-                              style: TextStyle(color: Colors.grey.shade700,fontWeight: FontWeight.w500),
+                              style: TextStyle(
+                                  color: Colors.grey.shade700,
+                                  fontWeight: FontWeight.w500),
                             ),
-                            TextButton(onPressed: () {
-                              Navigator.pushNamed(context, SignupScreen.routeName);
-                            }, child: Text("Signup"))
+                            TextButton(
+                                onPressed: () {
+                                  Navigator.pushNamed(
+                                      context, SignupScreen.routeName);
+                                },
+                                child: Text("Signup"))
                           ],
                         )
                       ],

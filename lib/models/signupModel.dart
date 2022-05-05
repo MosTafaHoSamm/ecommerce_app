@@ -4,6 +4,9 @@ class UserModel {
      String? name;
     String? image;
     String? phone;
+    String? shipAddress;
+    String? dateJoined;
+    bool isVerified=false;
 
   UserModel({
     required this.email,
@@ -11,6 +14,9 @@ class UserModel {
      required this.image,
     required this.name,
     required this.phone,
+    required this.shipAddress,
+    required this.dateJoined,
+    required this.isVerified,
   });
 
   UserModel.fromJson(Map<String, dynamic> json) {
@@ -19,6 +25,9 @@ class UserModel {
      image = json['image'];
     name = json['name'];
     phone = json['phone'];
+    shipAddress = json['shipAddress'];
+    dateJoined = json['dateJoined'];
+    // isVerified = json['isVerified'];
   }
 
   Map<String, dynamic> toMap() {
@@ -28,6 +37,9 @@ class UserModel {
       'uId':uId,
       'image':image,
       'phone':phone,
+      'shipAddress':shipAddress,
+      'dateJoined':dateJoined,
+      'isVerified':isVerified,
 
     };
   }

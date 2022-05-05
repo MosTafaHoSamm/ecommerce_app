@@ -3,6 +3,8 @@ import 'package:ecommerceapplication/screens/feeds.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import 'cart_user/feeds_user.dart';
+
 class EmptyCart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -49,7 +51,7 @@ class EmptyCart extends StatelessWidget {
                   ),
                 ),
                 onPressed: () {
-                  Navigator.pushNamed(context, FeedsScreen.routeName);
+                  Navigator.pushNamed(context, FeedsUserScreen.routeName);
                 },
                 color: Colors.redAccent,
                 shape: RoundedRectangleBorder(

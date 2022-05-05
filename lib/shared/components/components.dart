@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'dart:io';
 
 import '../cubit/wishlist_cubit/wishlist_cubit.dart';
 import '../cubit/wishlist_cubit/wishlist_states.dart';
@@ -70,7 +71,7 @@ Widget cartListener(
               position: BadgePosition.topEnd(top: -15,end: -13),
               toAnimate: true,
               badgeColor: Colors.redAccent,
-              badgeContent: Text("${cubitCart.getCartItems().length}",style: TextStyle(color: Theme.of(context).textSelectionColor),),
+              badgeContent: Text("${cubitCart.cartItems.length}",style: TextStyle(color: Theme.of(context).textSelectionColor),),
               child: Icon(
                 FontAwesomeIcons.shoppingCart,
                 color: Theme.of(context).textSelectionColor,
@@ -95,7 +96,7 @@ Widget wishListListener(
           position: BadgePosition.topEnd(top: -15,end: -13),
           toAnimate: true,
           badgeColor: Colors.redAccent,
-          badgeContent: Text("${wishListCubit.getWishListItems().length}",style: TextStyle(color: Theme.of(context).textSelectionColor),),
+          badgeContent: Text("${wishListCubit.wishlistItems.length}",style: TextStyle(color: Theme.of(context).textSelectionColor),),
           child: Icon(
             FontAwesomeIcons.solidHeart,
             color: Colors.red,
@@ -119,16 +120,18 @@ FocusNode? focusNode,
     Function()?onEditingComplete,
     Function(String value)?onSubmit,
   Function(String? value)?onSaved,
+  double val =20.0,
+  double height =50.0,
 
 }){
   return Padding(
-    padding: const EdgeInsets.symmetric(vertical: 5.0,horizontal: 20),
+    padding:   EdgeInsets.symmetric(vertical: 5.0,horizontal:val),
     child: Container(
       
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(20)),
+          borderRadius: BorderRadius.all(Radius.circular(25)),
           boxShadow: [BoxShadow(color: Colors.grey,offset: Offset(2,2),blurRadius: 3,spreadRadius: 1)]),
-      height: 50,
+      height: height,
       child: TextFormField(
         controller: controller,
         onFieldSubmitted: onSubmit,
@@ -140,6 +143,7 @@ FocusNode? focusNode,
         keyboardType: type,
         validator: validate ,
         obscureText: isSecure,
+        maxLines: 1,
         style: TextStyle(color: Colors.black),
 
         decoration: InputDecoration(
@@ -159,3 +163,4 @@ FocusNode? focusNode,
     ),
   );
 }
+

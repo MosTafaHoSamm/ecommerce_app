@@ -1,9 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mostafa.ecommerceapplication">
+    <uses-permission android:name="android.permission.INTERNET" />
    <application
-        android:label="ecommerceapplication"
+        android:label="أسواق ياسين"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/h">
         <activity
             android:name=".MainActivity"
             android:exported="true"
